@@ -1,0 +1,6 @@
+# Build output: generate with `npm run build`. CI attaches both files to each run.
+/certified-forester-exams.html
+/offline.html
+node_modules/
+.DS_Store
+Thumbs.db

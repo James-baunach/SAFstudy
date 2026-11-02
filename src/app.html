@@ -1,0 +1,1430 @@
+<meta charset="utf-8">
+<title>Certified Forester practice exams</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;700&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Layout: one 680px column of field-notebook panels. The formula sheet and calculator dock at the right on wide screens and rise as a bottom sheet on phones. */
+:root{
+  --bg:#E6EBE2; --surface:#F7F9F4; --ink:#1D2820; --muted:#56635A; --line:#C7D0C3;
+  --pine:#2E5A3C; --pine-soft:#DCE8DD; --tape:#F0641E; --tape-dark:#C44E12; --tape-ink:#1A0D05;
+  --wrong:#C92A62; --wrong-soft:#F7DDE6; --focus:#2A6FB0; --shadow:0 12px 32px rgba(29,40,32,.18); --scrim:rgba(18,24,20,.45);
+  --slab:"Zilla Slab", Rockwell, "Roboto Slab", Georgia, serif;
+  --sans:"Public Sans", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#121814; --surface:#1B231D; --ink:#E3EADF; --muted:#9AA89D; --line:#2F3B32;
+    --pine:#82C094; --pine-soft:#22382A; --tape:#FF8547; --tape-dark:#E86A2A; --tape-ink:#1A0D05;
+    --wrong:#F2709C; --wrong-soft:#3A1E29; --focus:#7FB3E6; --shadow:0 12px 32px rgba(0,0,0,.55); --scrim:rgba(0,0,0,.6);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#121814; --surface:#1B231D; --ink:#E3EADF; --muted:#9AA89D; --line:#2F3B32;
+  --pine:#82C094; --pine-soft:#22382A; --tape:#FF8547; --tape-dark:#E86A2A; --tape-ink:#1A0D05;
+  --wrong:#F2709C; --wrong-soft:#3A1E29; --focus:#7FB3E6; --shadow:0 12px 32px rgba(0,0,0,.55); --scrim:rgba(0,0,0,.6);
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none !important}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.55;-webkit-text-size-adjust:100%}
+main{max-width:680px;margin:0 auto;padding-block:28px 64px;padding-inline:18px}
+h1,h2,h3{font-family:var(--slab);font-weight:700;line-height:1.15;margin:0;text-wrap:balance}
+p{margin:0}
+button{font:inherit;color:inherit;cursor:pointer}
+button:disabled{cursor:not-allowed}
+input,textarea,select{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+[tabindex="-1"]:focus{outline:none}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+/* Home */
+.mast .eyebrow{font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:6px}
+.mast h1{font-size:clamp(2rem,7vw,2.75rem);letter-spacing:-.01em}
+.mast p.lede{color:var(--muted);margin-top:.6rem;max-width:36em}
+.tape-rule{height:14px;background:var(--tape);margin:22px 0 26px;width:62%;clip-path:polygon(0 0,100% 0,calc(100% - 12px) 50%,100% 100%,0 100%)}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px 18px;margin-bottom:18px;display:grid;gap:14px}
+.panel > *{min-width:0}
+.panel h2{font-size:1.35rem}
+.phead{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.count{font-variant-numeric:tabular-nums;font-weight:700;color:var(--tape-dark)}
+.resume{border-color:var(--tape);box-shadow:inset 5px 0 0 var(--tape)}
+fieldset{border:0;padding:0;margin:0;min-width:0}
+legend{font-weight:600;margin-bottom:8px;padding:0}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1.5px solid var(--line);background:transparent;border-radius:999px;padding:6px 12px;font-size:.92rem}
+.chip[aria-pressed="true"]{background:var(--pine);border-color:var(--pine);color:var(--surface)}
+.chip small{opacity:.8;margin-left:4px;font-variant-numeric:tabular-nums}
+.link{background:none;border:0;padding:0;color:var(--pine);text-decoration:underline;text-underline-offset:2px;font-size:.92rem;text-align:left}
+.link.danger{color:var(--wrong)}
+.seg{display:grid;grid-template-columns:repeat(var(--n,4),1fr);border:1.5px solid var(--line);border-radius:8px;overflow:hidden}
+.seg button{border:0;background:transparent;padding:10px 4px;border-right:1px solid var(--line);font-weight:500;font-size:.95rem}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--surface)}
+.modes{display:grid;gap:8px}
+@media (min-width:560px){.modes{grid-template-columns:1fr 1fr}}
+.mode{display:block;text-align:left;border:1.5px solid var(--line);background:transparent;border-radius:8px;padding:10px 12px}
+.mode strong{display:block}
+.mode span{color:var(--muted);font-size:.9rem}
+.mode[aria-pressed="true"]{border-color:var(--pine);background:var(--pine-soft)}
+.check{display:flex;gap:10px;align-items:flex-start;font-size:.95rem}
+.check input{width:20px;height:20px;margin-top:2px;flex:none;accent-color:var(--pine)}
+.primary{display:block;width:100%;background:var(--tape);color:var(--tape-ink);border:0;border-radius:8px;padding:14px;font-weight:700;font-size:1.05rem}
+.primary:hover:not(:disabled){background:var(--tape-dark)}
+.primary:disabled{opacity:.45}
+.secondary{background:transparent;border:1.5px solid var(--ink);border-radius:8px;padding:11px 14px;font-weight:600}
+.secondary:disabled{opacity:.4}
+.secondary.small{padding:7px 12px;font-size:.92rem}
+.secondary[aria-pressed="true"]{border-color:var(--tape);color:var(--tape-dark);box-shadow:inset 0 -3px 0 var(--tape)}
+.btnrow{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.btnrow .primary{width:auto;flex:1 1 220px}
+.note{color:var(--muted);font-size:.9rem}
+.callout{border-left:4px solid var(--tape);padding:4px 0 4px 12px;font-size:.95rem}
+details.mix summary{cursor:pointer;font-weight:600;font-size:.95rem}
+.mixlist{list-style:none;padding:0;margin:8px 0 0;display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:2px 16px;font-size:.92rem}
+.mixlist li{display:flex;justify-content:space-between;gap:8px;border-bottom:1px dotted var(--line);padding:3px 0}
+.mixlist b{font-variant-numeric:tabular-nums}
+
+/* Spaced review meter */
+.srbar{display:flex;gap:2px;height:14px;border-radius:3px;overflow:hidden;background:var(--surface)}
+.srbar i{display:block;height:100%;min-width:0}
+.sw-m{background:var(--pine)}
+.sw-r{background:color-mix(in srgb,var(--pine) 62%,var(--surface))}
+.sw-l{background:color-mix(in srgb,var(--pine) 30%,var(--surface))}
+.sw-n{background:var(--line)}
+.srlegend{list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:6px 18px;font-size:.9rem;color:var(--muted)}
+.srlegend li{display:flex;align-items:center;gap:6px}
+.srlegend i{width:12px;height:12px;border-radius:2px;display:inline-block}
+.srlegend b{color:var(--ink);font-variant-numeric:tabular-nums}
+
+/* Readiness table */
+.ready{display:grid;gap:0}
+.rrow{display:grid;grid-template-columns:minmax(0,1fr) 64px 132px 124px;gap:4px 14px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line);font-size:.93rem}
+.rrow:last-child{border-bottom:0}
+.rrow.rhead{font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;padding-top:0}
+.rrow .seen{font-variant-numeric:tabular-nums;color:var(--muted);text-align:right}
+.acc{display:flex;align-items:center;gap:8px}
+.acc b{font-variant-numeric:tabular-nums;min-width:3.2em;text-align:right;font-weight:600}
+.meter{position:relative;flex:1;height:8px;background:var(--line);border-radius:4px}
+.meter i{position:absolute;inset:0 auto 0 0;border-radius:4px;background:var(--pine)}
+.meter i.low{background:var(--wrong)}
+.meter .tick{position:absolute;top:-3px;bottom:-3px;left:75%;width:2px;background:var(--ink);opacity:.55}
+.spark{display:block;overflow:visible}
+.spark .ref{stroke:var(--line);stroke-width:1;stroke-dasharray:3 3;fill:none}
+.spark .ln{fill:none;stroke:var(--muted);stroke-width:1.5;stroke-linejoin:round;stroke-linecap:round}
+.spark .pt{fill:var(--muted)}
+.spark .end{fill:var(--pine);stroke:var(--surface);stroke-width:2}
+.spark .hit{fill:transparent;cursor:default}
+.nodata{color:var(--muted);font-size:.85rem}
+@media (max-width:560px){
+  .rrow{grid-template-columns:minmax(0,1fr) auto}
+  .rrow.rhead{display:none}
+  .rrow .acc{grid-column:1}
+  .rrow .trend{grid-column:2;justify-self:end}
+}
+.hist{list-style:none;padding:0;margin:0}
+.hist li{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid var(--line);font-size:.95rem}
+.hist li:last-child{border-bottom:0}
+.hist .pct{font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.hist .muted{color:var(--muted);font-weight:500}
+.pass{color:var(--pine)} .fail{color:var(--wrong)}
+.fine{color:var(--muted);font-size:.85rem;margin-top:26px;display:grid;gap:8px}
+.lint{border-color:var(--tape)}
+.lint ul{margin:0;padding-left:1.2em;font-size:.85rem;max-height:240px;overflow:auto}
+
+/* Quiz */
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:.95rem;color:var(--muted)}
+.topbar .link{color:var(--muted);font-size:.95rem;padding:4px 0}
+.timer{font-variant-numeric:tabular-nums;font-family:var(--mono);font-size:.92rem}
+.timer.low{color:var(--tape-dark);font-weight:600}
+.toolrow{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:10px}
+.kindtag{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.toolbtns{display:flex;gap:8px}
+.toolbtn{border:1.5px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 12px;font-size:.88rem;font-weight:600}
+.toolbtn[aria-pressed="true"]{border-color:var(--ink);background:var(--ink);color:var(--surface)}
+.toolbtn:disabled{opacity:.45;text-decoration:line-through}
+.track{height:16px;background:var(--line);margin:12px 0 18px;border-radius:2px;overflow:hidden}
+.fill{height:100%;background:var(--tape);transition:width .3s ease;clip-path:polygon(0 0,100% 0,calc(100% - 10px) 50%,100% 100%,0 100%);min-width:14px}
+.pace{font-size:.88rem;color:var(--muted);margin:-6px 0 16px;font-variant-numeric:tabular-nums}
+.pace.behind{color:var(--tape-dark);font-weight:600}
+.scen{background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--pine);border-radius:6px;padding:12px 14px;margin-bottom:16px;font-size:.96rem}
+.scen .eyebrow,.eyebrow{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--pine);margin-bottom:4px}
+.dtag{color:var(--pine);font-weight:600;font-size:.92rem;margin:0 0 6px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.pill{font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;border:1px solid currentColor;border-radius:999px;padding:1px 8px;color:var(--muted)}
+.qtext{font-size:1.4rem;font-weight:600;margin-bottom:20px}
+.choices{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+.choice{width:100%;display:flex;gap:12px;align-items:flex-start;text-align:left;background:var(--surface);border:1.5px solid var(--line);border-radius:8px;padding:12px 14px;line-height:1.4}
+.choice .ltr{font-family:var(--slab);font-weight:700;min-width:1.2em}
+.choice .ctext{display:grid;gap:4px}
+.choice .mark{font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;font-weight:700}
+.choice:hover:not(:disabled){border-color:var(--ink)}
+.choice.sel{border-color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--ink)}
+.choice.right{border-color:var(--pine);background:var(--pine-soft)}
+.choice.right .mark{color:var(--pine)}
+.choice.wrong{border-color:var(--wrong);background:var(--wrong-soft)}
+.choice.wrong .mark{color:var(--wrong)}
+.choice:disabled{cursor:default;color:inherit}
+.guessrow{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin-top:14px}
+.feedback{margin-top:18px;border-left:5px solid var(--pine);padding:4px 0 4px 14px;display:grid;gap:6px}
+.feedback.no{border-color:var(--wrong)}
+.feedback h3{font-size:1.15rem}
+.src{color:var(--muted);font-size:.85rem}
+.asof{display:block;color:var(--tape-dark);font-weight:600}
+.navrow{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap}
+.navrow .primary{flex:1 1 140px;width:auto}
+.mapwrap{margin-top:18px;display:grid;gap:10px}
+.qmap{display:grid;grid-template-columns:repeat(auto-fill,minmax(42px,1fr));gap:6px}
+.qmap button{border:1.5px solid var(--line);background:transparent;border-radius:6px;padding:6px 0;font-size:.85rem;font-variant-numeric:tabular-nums}
+.qmap button.ans{background:var(--pine-soft);border-color:var(--pine)}
+.qmap button.flg{border-color:var(--tape);box-shadow:inset 0 -4px 0 var(--tape)}
+.qmap button.cur{border-color:var(--ink);font-weight:700}
+.qmaplegend{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:.82rem;color:var(--muted)}
+.keys{margin-top:22px;font-size:.82rem;color:var(--muted)}
+@media (pointer:coarse){.keys{display:none}}
+
+/* Results */
+.score{font-family:var(--slab);font-weight:700;font-size:clamp(4rem,20vw,6.5rem);line-height:1;margin:6px 0 8px}
+.verdict{font-weight:600}
+.sub{color:var(--muted);margin-top:4px}
+.btnstack{display:grid;gap:10px;margin:22px 0}
+@media (min-width:560px){.btnstack{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}}
+.drow{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:2px 14px;padding:10px 0;border-bottom:1px solid var(--line);font-size:.95rem}
+.drow:last-child{border-bottom:0}
+.drow .bar{grid-column:1 / -1;height:8px;background:var(--line);border-radius:2px;overflow:hidden}
+.drow .bar i{display:block;height:100%;background:var(--pine)}
+.drow .bar i.low{background:var(--wrong)}
+.drow .num{font-variant-numeric:tabular-nums;font-weight:600}
+.drow .tm{font-variant-numeric:tabular-nums;color:var(--muted)}
+.slow{margin:0;padding-left:1.3em;display:grid;gap:8px;font-size:.93rem}
+.slow b{font-variant-numeric:tabular-nums}
+.rev{border-top:1px solid var(--line);padding-top:16px;display:grid;gap:4px}
+.rev:first-of-type{border-top:0;padding-top:0}
+.rev .qtext{font-size:1.08rem;margin-bottom:4px}
+.rev p{font-size:.95rem}
+.rev .yours{color:var(--wrong)}
+.rev .yours.ok{color:var(--pine)}
+.rev .ans{color:var(--pine);font-weight:600}
+.rev .ex{color:var(--muted)}
+.rev details{font-size:.92rem;color:var(--muted)}
+.rev summary{cursor:pointer}
+.tagrow{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.tag{font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;font-weight:700;border-radius:4px;padding:1px 6px;background:var(--line);color:var(--ink)}
+.tag.g{background:var(--tape);color:var(--tape-ink)}
+
+/* Tools: formula sheet + calculator */
+.tools{position:fixed;z-index:30;background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow);display:flex;flex-direction:column;min-height:0}
+@media (min-width:1100px){
+  .tools{top:calc(env(safe-area-inset-top,0px) + 16px);right:16px;bottom:calc(env(safe-area-inset-bottom,0px) + 16px);width:380px;border-radius:12px}
+  body.tools-open main{margin-left:max(16px,calc((100vw - 412px - 680px) / 2));margin-right:auto}
+}
+@media (max-width:1099.98px){
+  .tools{left:0;right:0;bottom:0;max-height:62vh;border-radius:14px 14px 0 0;padding-bottom:env(safe-area-inset-bottom,0px)}
+  body.tools-open main{padding-bottom:66vh}
+}
+.thead{display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid var(--line)}
+.thead .seg{flex:1;--n:2}
+.thead .seg button{padding:7px 4px}
+.tclose{border:0;background:transparent;font-size:1.5rem;line-height:1;padding:2px 8px;color:var(--muted)}
+.tbody{overflow:auto;padding:14px;min-height:0;flex:1}
+.fsearch{width:100%;border:1.5px solid var(--line);background:var(--bg);border-radius:8px;padding:8px 10px;margin-bottom:12px}
+.fsec{margin-bottom:16px}
+.fsec h3{font-size:1rem;margin-bottom:6px;color:var(--pine)}
+.fsec dl{margin:0;display:grid;gap:7px}
+.fsec dt{font-size:.82rem;color:var(--muted);font-weight:600}
+.fsec dd{margin:0;font-family:var(--mono);font-size:.84rem;line-height:1.45;overflow-wrap:anywhere}
+.fnote{font-size:.82rem;color:var(--muted);margin-bottom:12px}
+.fempty{font-size:.9rem;color:var(--muted)}
+.calcbox{display:grid;gap:10px}
+.calcin{width:100%;font-family:var(--mono);font-size:1.15rem;border:1.5px solid var(--line);background:var(--bg);border-radius:8px;padding:10px 12px}
+.calcout{font-family:var(--mono);font-size:1.4rem;text-align:right;min-height:1.6em;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.calcout.err{font-family:var(--sans);font-size:.92rem;color:var(--wrong);text-align:left}
+.pad{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.pad button{border:1px solid var(--line);background:var(--bg);border-radius:7px;padding:10px 0;font-family:var(--mono);font-size:.98rem}
+.pad button.fn{font-size:.85rem;color:var(--muted)}
+.pad button.op{background:var(--pine-soft)}
+.pad button.eq{background:var(--tape);border-color:var(--tape);color:var(--tape-ink);font-weight:700}
+.pad button:active{transform:translateY(1px)}
+.tape{list-style:none;margin:0;padding:0;display:grid;gap:2px;font-family:var(--mono);font-size:.84rem}
+.tape button{width:100%;text-align:right;border:0;background:transparent;padding:4px 2px;color:var(--muted);border-bottom:1px dotted var(--line);overflow-wrap:anywhere}
+.tape button b{color:var(--ink);font-weight:500}
+
+/* Dialog + tooltip */
+dialog{border:1px solid var(--line);border-radius:12px;background:var(--surface);color:var(--ink);padding:0;width:min(520px,calc(100vw - 32px));box-shadow:var(--shadow)}
+dialog::backdrop{background:var(--scrim)}
+.dlg{padding:20px 18px;display:grid;gap:14px}
+.dlg h2{font-size:1.3rem}
+.dlgbody{display:grid;gap:10px;font-size:.96rem}
+.dlgbody textarea{width:100%;border:1.5px solid var(--line);background:var(--bg);border-radius:8px;padding:8px;font-family:var(--mono);font-size:.78rem}
+.dlgacts{display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end}
+.dlgacts .primary{width:auto;padding:11px 16px;font-size:1rem}
+.dlgacts .dangerbtn{background:transparent;border:1.5px solid var(--wrong);color:var(--wrong);border-radius:8px;padding:11px 14px;font-weight:600}
+.err{color:var(--wrong);font-size:.9rem}
+.tip{position:fixed;z-index:40;pointer-events:none;background:var(--ink);color:var(--surface);font-size:.8rem;padding:4px 8px;border-radius:5px;white-space:nowrap;font-variant-numeric:tabular-nums}
+@media (prefers-reduced-motion:reduce){.fill{transition:none}}
+</style>
+
+<main id="app"></main>
+
+<aside id="tools" class="tools" hidden aria-label="Formula sheet and calculator">
+  <div class="thead">
+    <div class="seg" role="group" aria-label="Tool">
+      <button type="button" id="tabF" data-tab="formulas" aria-pressed="false">Formula sheet</button>
+      <button type="button" id="tabC" data-tab="calc" aria-pressed="true">Calculator</button>
+    </div>
+    <button type="button" class="tclose" id="toolsClose" aria-label="Close tools">×</button>
+  </div>
+  <div class="tbody">
+    <div id="paneF" hidden>
+      <p class="fnote" id="fOff" hidden>The formula sheet is turned off for this exam. The calculator is still available.</p>
+      <div id="fOn">
+        <label class="sr-only" for="fSearch">Search formulas</label>
+        <input id="fSearch" class="fsearch" type="search" placeholder="Search formulas, e.g. LEV or prism" autocomplete="off">
+        <p class="fnote">Variables: D = DBH in inches, i = interest rate as a decimal, n = years. SAF provides a formula sheet and scratch paper on exam day; its contents may differ from this one.</p>
+        <div id="fList">
+          <section class="fsec"><h3>Trees and stands</h3><dl>
+            <dt>Basal area of a tree (sq ft)</dt><dd>BA = 0.005454 × D²</dd>
+            <dt>Quadratic mean diameter</dt><dd>QMD = √(BA per acre ÷ (0.005454 × TPA))</dd>
+            <dt>Reineke stand density index</dt><dd>SDI = TPA × (QMD ÷ 10)^1.605</dd>
+            <dt>Trees per acre at a spacing</dt><dd>TPA = 43,560 ÷ (row spacing × tree spacing)</dd>
+            <dt>Mean and periodic annual increment</dt><dd>MAI = volume ÷ age · PAI = (V₂ − V₁) ÷ years between</dd>
+            <dt>q-ratio (uneven-aged)</dt><dd>q = trees in a class ÷ trees in the next larger class</dd>
+            <dt>Genetic gain</dt><dd>R = h² × S</dd>
+          </dl></section>
+          <section class="fsec"><h3>Plots and prisms</h3><dl>
+            <dt>Plot radius</dt><dd>r = √(plot area in sq ft ÷ π) · 1/100 ac 11.8 ft · 1/20 ac 26.3 ft · 1/10 ac 37.2 ft · 1/5 ac 52.7 ft</dd>
+            <dt>Fixed-plot expansion factor</dt><dd>EF = 1 ÷ plot size in acres</dd>
+            <dt>Prism basal area per acre</dt><dd>BA = 'in' count × BAF</dd>
+            <dt>Trees per acre per tally tree</dt><dd>TF = BAF ÷ (0.005454 × D²)</dd>
+            <dt>Plot radius factor (ft per inch of DBH)</dt><dd>PRF = 8.696 ÷ √BAF · BAF 10 = 2.75 · BAF 20 = 1.94</dd>
+            <dt>Limiting distance</dt><dd>LD = PRF × D</dd>
+            <dt>Volume from VBAR</dt><dd>Volume per acre = BA per acre × VBAR</dd>
+          </dl></section>
+          <section class="fsec"><h3>Sampling statistics</h3><dl>
+            <dt>Coefficient of variation</dt><dd>CV% = s ÷ mean × 100</dd>
+            <dt>Standard error of the mean</dt><dd>SE = s ÷ √n</dd>
+            <dt>Confidence interval</dt><dd>mean ± t × SE (t ≈ 2 for 95%)</dd>
+            <dt>Sampling error (percent)</dt><dd>E% = t × SE ÷ mean × 100</dd>
+            <dt>Sample size</dt><dd>n = t² × CV² ÷ E²</dd>
+          </dl></section>
+          <section class="fsec"><h3>Heights, slopes, and logs</h3><dl>
+            <dt>Height, percent clinometer</dt><dd>H = horizontal distance × (top% − base%) ÷ 100 (base reading is negative below eye level)</dd>
+            <dt>Height, degree clinometer</dt><dd>H = horizontal distance × (tan top − tan base)</dd>
+            <dt>Percent slope</dt><dd>% = rise ÷ run × 100 · 45° = 100%</dd>
+            <dt>Slope correction</dt><dd>HD = SD × cos(arctan(% ÷ 100)) · SD = HD ÷ cos(…)</dd>
+            <dt>Smalian's formula</dt><dd>V = (B + b) ÷ 2 × L</dd>
+            <dt>Huber's formula</dt><dd>V = M × L</dd>
+            <dt>Newton's formula</dt><dd>V = (B + 4M + b) ÷ 6 × L</dd>
+            <dt>Doyle log rule</dt><dd>bd ft = (D − 4)² × L ÷ 16 (D = small-end DIB)</dd>
+            <dt>Overrun</dt><dd>% = (lumber tally − log scale) ÷ log scale × 100</dd>
+          </dl></section>
+          <section class="fsec"><h3>Maps, photos, and compass</h3><dl>
+            <dt>Map scales</dt><dd>1:24,000 → 1 in = 2,000 ft · 1:15,840 → 1 in = 1,320 ft · 1:63,360 → 1 in = 1 mi</dd>
+            <dt>Photo scale</dt><dd>Scale = focal length ÷ flying height above ground (same units)</dd>
+            <dt>Relief displacement</dt><dd>d = r × h ÷ H</dd>
+            <dt>Parallax height</dt><dd>h = H × dP ÷ (P + dP)</dd>
+            <dt>Back azimuth</dt><dd>azimuth ± 180°</dd>
+            <dt>Declination</dt><dd>East: true = magnetic + declination · West: true = magnetic − declination</dd>
+            <dt>NDVI</dt><dd>(NIR − Red) ÷ (NIR + Red)</dd>
+            <dt>Traverse precision</dt><dd>error of closure ÷ perimeter, as 1:x</dd>
+          </dl></section>
+          <section class="fsec"><h3>Money and time</h3><dl>
+            <dt>Future and present value</dt><dd>FV = PV × (1 + i)ⁿ · PV = FV ÷ (1 + i)ⁿ</dd>
+            <dt>Terminating annual series</dt><dd>PV = a × [(1 + i)ⁿ − 1] ÷ [i × (1 + i)ⁿ] · FV = a × [(1 + i)ⁿ − 1] ÷ i</dd>
+            <dt>Perpetual annual series</dt><dd>PV = a ÷ i</dd>
+            <dt>Perpetual periodic series (every t years)</dt><dd>PV = a ÷ [(1 + i)ᵗ − 1]</dd>
+            <dt>Land expectation value (Faustmann)</dt><dd>LEV = NPV of one rotation × (1 + i)^R ÷ [(1 + i)^R − 1]</dd>
+            <dt>IRR of a single payment</dt><dd>IRR = (FV ÷ PV)^(1/n) − 1</dd>
+            <dt>Real interest rate</dt><dd>(1 + nominal) ÷ (1 + inflation) − 1 ≈ nominal − inflation</dd>
+            <dt>Rule of 72</dt><dd>years to double ≈ 72 ÷ rate in percent</dd>
+            <dt>Benefit/cost ratio</dt><dd>PV of benefits ÷ PV of costs</dd>
+            <dt>Residual stumpage</dt><dd>delivered price − logging − hauling − profit and risk</dd>
+            <dt>Depletion</dt><dd>unit = adjusted basis ÷ volume · deduction = unit × volume sold</dd>
+            <dt>Area and volume control</dt><dd>acres per year = area ÷ rotation · Hanzlik AC = Vm ÷ R + I</dd>
+          </dl></section>
+          <section class="fsec"><h3>Wood, carbon, and fire</h3><dl>
+            <dt>Moisture content (oven-dry basis)</dt><dd>MC% = (wet − oven-dry) ÷ oven-dry × 100</dd>
+            <dt>Carbon and CO₂ equivalent</dt><dd>C ≈ 0.5 × dry biomass · CO₂e = C × 44 ÷ 12 (3.67)</dd>
+            <dt>Timelag fuel classes</dt><dd>1-hr &lt; ¼ in · 10-hr ¼–1 in · 100-hr 1–3 in · 1,000-hr 3–8 in</dd>
+            <dt>Ventilation index</dt><dd>mixing height × transport wind speed</dd>
+          </dl></section>
+          <section class="fsec"><h3>Units</h3><dl>
+            <dt>Area</dt><dd>1 acre = 43,560 sq ft = 10 sq chains = 0.4047 ha · 1 ha = 2.471 ac · section = 640 ac · township = 36 sections</dd>
+            <dt>Length</dt><dd>1 chain = 66 ft = 4 rods = 100 links · 1 mile = 80 chains = 5,280 ft · 1 m = 3.281 ft · 1 in = 2.54 cm</dd>
+            <dt>Volume and weight</dt><dd>1 cord = 128 cu ft stacked · 1 bd ft = 144 cu in · 1 ton = 2,000 lb</dd>
+          </dl></section>
+        </div>
+        <p class="fempty" id="fEmpty" hidden>No formulas match that search.</p>
+      </div>
+    </div>
+    <div id="paneC">
+      <div class="calcbox">
+        <label class="sr-only" for="calcIn">Calculator expression</label>
+        <input id="calcIn" class="calcin" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="e.g. 10000 / 1.05^20">
+        <p id="calcOut" class="calcout" aria-live="polite"></p>
+        <div class="pad" role="group" aria-label="Calculator keys">
+          <button type="button" class="fn" data-ins="sin(">sin</button><button type="button" class="fn" data-ins="cos(">cos</button><button type="button" class="fn" data-ins="tan(">tan</button><button type="button" class="fn" data-ins="ln(">ln</button><button type="button" class="fn" data-ins="log(">log</button>
+          <button type="button" class="op" data-ins="(">(</button><button type="button" class="op" data-ins=")">)</button><button type="button" class="op" data-ins="^" aria-label="power">xʸ</button><button type="button" class="op" data-ins="√(" aria-label="square root">√</button><button type="button" class="op" data-act="del" aria-label="Delete">⌫</button>
+          <button type="button" data-ins="7">7</button><button type="button" data-ins="8">8</button><button type="button" data-ins="9">9</button><button type="button" class="op" data-ins="÷" aria-label="divide">÷</button><button type="button" class="op" data-act="clr" aria-label="Clear">C</button>
+          <button type="button" data-ins="4">4</button><button type="button" data-ins="5">5</button><button type="button" data-ins="6">6</button><button type="button" class="op" data-ins="×" aria-label="multiply">×</button><button type="button" class="op" data-ins="π" aria-label="pi">π</button>
+          <button type="button" data-ins="1">1</button><button type="button" data-ins="2">2</button><button type="button" data-ins="3">3</button><button type="button" class="op" data-ins="−" aria-label="minus">−</button><button type="button" class="op" data-ins="ans" aria-label="previous answer">Ans</button>
+          <button type="button" data-ins="0">0</button><button type="button" data-ins=".">.</button><button type="button" class="op" data-ins="%" aria-label="percent">%</button><button type="button" class="op" data-ins="+" aria-label="plus">+</button><button type="button" class="eq" data-act="eq" aria-label="Equals">=</button>
+        </div>
+        <p class="fnote">Trig functions use degrees. Type with the keyboard too; press Enter to calculate. Tap a past result to reuse it. SAF allows only a non-programmable calculator, so also practice on the one you'll bring.</p>
+        <ul class="tape" id="calcTape" aria-label="Recent calculations"></ul>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<dialog id="dlg" aria-labelledby="dlgT">
+  <div class="dlg">
+    <h2 id="dlgT"></h2>
+    <div class="dlgbody" id="dlgB"></div>
+    <div class="dlgacts" id="dlgA"></div>
+  </div>
+</dialog>
+<div id="live" class="sr-only" aria-live="polite"></div>
+<div id="tip" class="tip" hidden></div>
+
+<script>
+"use strict";
+/*@@DATA@@*/
+
+// ---------- Exam structure ----------
+const DOMAINS = {
+  meas:"Measurements & mapping",
+  silv:"Silviculture",
+  eco:"Ecology, soils & dendrology",
+  mgmt:"Management & economics",
+  prot:"Forest protection",
+  harv:"Harvesting & wood products",
+  multi:"Wildlife, water & recreation",
+  policy:"Policy, law & ethics"
+};
+// SAF's four exam domains, from its 2021 job/task analysis. Every question has one (field t) as well as a subject.
+const SAF = {
+  ra:"Resource assessment",
+  sa:"Stakeholder analysis & relations",
+  mp:"Management planning",
+  ex:"Execution of management plans"
+};
+// Full-exam mix by SAF domain, in questions. These are estimates: SAF publishes the weights in
+// "CF Exam Domains & Knowledge Areas" (Certification Handbook, Appendix A). Edit to match it, and the copy in build.js.
+const BLUEPRINT = {ra:40, sa:30, mp:45, ex:35};
+const DEFAULT_REF = {meas:"fm", silv:"ps", eco:"fe", mgmt:"econ", prot:"fhp", harv:"fh", multi:"wl", policy:"pol"};
+// Order of the original 165-question bank, used once to carry over progress saved by position.
+const LEGACY = [["meas",26],["silv",26],["eco",20],["mgmt",20],["prot",23],["harv",16],["multi",14],["policy",20]];
+// SAF passes a scaled score of 75; the raw percentage that takes varies by exam form, so 75% is a practice target.
+const PASS = 75, DAY = 864e5, LETTERS = "ABCD";
+const INTERVALS = [0, 1, 3, 7, 16, 35]; // days until the next review, by box 1–5
+const KIND = {study:"Study", exam:"Exam", full:"Full exam", review:"Review", retake:"Retake"};
+const STUDY_KINDS = new Set(["study","review","retake"]);
+const TREND_KINDS = new Set(["study","exam","full"]);
+const DOM_KEYS = Object.keys(DOMAINS), SAF_KEYS = Object.keys(SAF);
+const FULL_N = Object.values(BLUEPRINT).reduce((a, b) => a + b, 0);
+const LIMITS = [[150,"2.5 h"],[180,"3 h"],[210,"3.5 h"],[240,"4 h"],[0,"Untimed"]];
+
+BANK.forEach(q => { q.d = q.id.slice(0, q.id.indexOf("-")); });
+const QBY = {}; BANK.forEach(q => { QBY[q.id] = q; });
+const SETS = {}; BANK.forEach(q => { if (q.s) (SETS[q.s] = SETS[q.s] || []).push(q.id); });
+const COUNT = {}; BANK.forEach(q => { COUNT[q.d] = (COUNT[q.d] || 0) + 1; });
+
+// ---------- Helpers ----------
+const $ = (sel, root = document) => root.querySelector(sel);
+const app = $("#app");
+function esc(s){ return String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+function shuffle(a){ a = a.slice(); for (let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+function plural(n, one, many){ return `${n} ${n === 1 ? one : (many || one + "s")}`; }
+function fmtClock(ms){ const s = Math.max(0, Math.floor(ms / 1000)), h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60), p = n => String(n).padStart(2, "0"); return h ? `${h}:${p(m)}:${p(s % 60)}` : `${p(m)}:${p(s % 60)}`; }
+function fmtDur(ms){ const s = Math.round(ms / 1000); if (s < 60) return `${s} s`; const m = Math.floor(s / 60); return m < 60 ? `${m} min ${s % 60} s` : `${Math.floor(m / 60)} h ${m % 60} min`; }
+function fmtSec(ms){ return `${Math.round(ms / 1000)} s`; }
+function fmtDate(t){ return new Date(t).toLocaleDateString(undefined, {month:"short", day:"numeric"}); }
+function relDay(t){ const d = Math.ceil((t - Date.now()) / DAY); return d <= 0 ? "later today" : d === 1 ? "tomorrow" : `in ${d} days`; }
+function isObj(o){ return !!o && typeof o === "object" && !Array.isArray(o); }
+function num(n, d = 0){ return Number.isFinite(n) ? n : d; }
+function okOf(x){ return x.p !== null && x.ord[x.p] === 0; }
+function announce(msg){ const el = $("#live"); el.textContent = ""; setTimeout(() => { el.textContent = msg; }, 60); }
+function activeKey(){ const a = document.activeElement; return a && a.dataset ? a.dataset.fk : undefined; }
+function focusKey(key){ if (!key) return; const el = app.querySelector(`[data-fk="${CSS.escape(key)}"]`); if (el && !el.disabled) el.focus({preventScroll:true}); }
+
+// ---------- Storage: this browser, plus the viewer's Claude account when available ----------
+const KEYS = {progress:"cfx_progress", history:"cfx_history", settings:"cfx_settings", session:"cfx_session"};
+const local = {
+  get(k){ try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : null; } catch (e) { return null; } },
+  set(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch (e) { return false; } }
+};
+// hideFormulas replaced fullFormulas (off by default) once it was clear SAF supplies a formula sheet on exam day.
+const DEFAULT_SETTINGS = {domains:DOM_KEYS.slice(), len:25, mode:"study", order:"random", calcOnly:false, fullLimit:180, hideFormulas:false};
+const DB = {
+  progress:{updated:0, q:{}},       // q[id] = {b: box 1–5, due, n: times answered, r: times right, last: 1 if last answer right and not a guess, t: last answered, fx: full-exam appearances}
+  history:{updated:0, items:[]},
+  settings:{updated:0, v:{...DEFAULT_SETTINGS}},
+  session:{updated:0, s:null}
+};
+
+// Data can come from browser storage, the account store, or an imported file, so every load is checked.
+function cleanProgress(src){
+  const out = {};
+  if (!isObj(src)) return out;
+  for (const [id, p] of Object.entries(src)){
+    if (!QBY[id] || !isObj(p)) continue;
+    out[id] = {b:Math.min(5, Math.max(1, num(p.b, 1) | 0)), due:num(p.due), n:num(p.n), r:num(p.r), last:p.last ? 1 : 0, t:num(p.t), fx:num(p.fx)};
+  }
+  return out;
+}
+function cleanHistory(items){
+  if (!Array.isArray(items)) return [];
+  return items.filter(h => isObj(h) && Number.isFinite(h.t) && KIND[h.kind] && Number.isFinite(h.n) && h.n > 0).map(h => {
+    const tally = (src, keys) => { const o = {}; if (isObj(src)) for (const [k, v] of Object.entries(src)) if (keys[k] && Array.isArray(v) && v.length === 2) o[k] = [num(v[0]), num(v[1])]; return o; };
+    return {t:h.t, kind:h.kind, n:h.n, right:num(h.right, Math.round(num(h.pct) * h.n / 100)), pct:num(h.pct), ms:num(h.ms), d:tally(h.d, DOMAINS), sd:tally(h.sd, SAF), g:num(h.g)};
+  }).slice(0, 100);
+}
+function cleanSettings(v){
+  const s = {...DEFAULT_SETTINGS};
+  if (!isObj(v)) return s;
+  if (Array.isArray(v.domains)) s.domains = v.domains.filter(d => DOMAINS[d]);
+  if ([10,25,50,100].includes(v.len)) s.len = v.len;
+  if (v.mode === "study" || v.mode === "exam") s.mode = v.mode;
+  if (["random","due","unseen"].includes(v.order)) s.order = v.order;
+  s.calcOnly = !!v.calcOnly;
+  if (LIMITS.some(([m]) => m === v.fullLimit)) s.fullLimit = v.fullLimit;
+  s.hideFormulas = !!v.hideFormulas;
+  return s;
+}
+function cleanSession(s){
+  if (!isObj(s) || !KIND[s.kind] || !Array.isArray(s.qs) || !s.qs.length) return null;
+  const qs = [];
+  for (const x of s.qs){
+    if (!isObj(x) || !QBY[x.id] || !Array.isArray(x.ord) || x.ord.slice().sort().join() !== "0,1,2,3") return null;
+    const p = x.p === null || x.p === undefined ? null : Number(x.p);
+    if (p !== null && !(p >= 0 && p <= 3)) return null;
+    qs.push({id:x.id, ord:x.ord.map(Number), p, f:!!x.f, g:!!x.g, ms:num(x.ms), v:!!x.v});
+  }
+  return {kind:s.kind, qs, i:Math.min(qs.length - 1, Math.max(0, num(s.i) | 0)), used:num(s.used), started:num(s.started, Date.now()),
+    limit:num(s.limit), formulas:s.formulas !== false, showMap:!!s.showMap, warned:Array.isArray(s.warned) ? s.warned.filter(Number.isFinite) : []};
+}
+function loadLocal(){
+  const p = local.get(KEYS.progress); if (p) DB.progress = {updated:num(p.updated), q:cleanProgress(p.q)};
+  const h = local.get(KEYS.history); if (h) DB.history = {updated:num(h.updated), items:cleanHistory(h.items)};
+  const s = local.get(KEYS.settings); if (s) DB.settings = {updated:num(s.updated), v:cleanSettings(s.v)};
+  const x = local.get(KEYS.session); if (x) DB.session = {updated:num(x.updated), s:cleanSession(x.s)};
+}
+// Version 1 of this page saved missed questions by their position in the bank. Carry them over once.
+function migrateV1(){
+  if (local.get("cfx_migrated")) return;
+  const oldHist = local.get("cfp_history"), oldMissed = local.get("cfp_missed");
+  if (Array.isArray(oldHist) && oldHist.length){
+    const items = oldHist.filter(h => isObj(h) && Number.isFinite(h.t)).map(h => ({t:h.t, kind:h.mode === "exam" ? "exam" : "study", n:h.n, pct:h.pct, right:Math.round(num(h.pct) * num(h.n) / 100), d:h.d, ms:0, g:0}));
+    DB.history.items = mergeHistory(DB.history.items, cleanHistory(items)).items;
+    persist("history");
+  }
+  if (isObj(oldMissed)){
+    const order = [];
+    LEGACY.forEach(([d, n]) => { for (let i = 1; i <= n; i++) order.push(`${d}-${String(i).padStart(3, "0")}`); });
+    const now = Date.now();
+    for (const [idx, c] of Object.entries(oldMissed)){
+      const id = order[+idx];
+      if (id && QBY[id] && !DB.progress.q[id]) DB.progress.q[id] = {b:1, due:now, n:Math.max(1, num(+c, 1)), r:0, last:0, t:1, fx:0};
+    }
+    persist("progress");
+  }
+  local.set("cfx_migrated", 1);
+}
+function mergeProgress(into, from){
+  let pushNeeded = false;
+  for (const [id, p] of Object.entries(from)){
+    const cur = into[id];
+    if (!cur || p.t > cur.t) into[id] = {...p, fx:Math.max(p.fx, cur ? cur.fx : 0)};
+    else if (p.fx > cur.fx) cur.fx = p.fx;
+  }
+  for (const [id, p] of Object.entries(into)){ const o = from[id]; if (!o || p.t > o.t || p.fx > o.fx) pushNeeded = true; }
+  return pushNeeded;
+}
+function mergeHistory(a, b){
+  const key = h => h.t + ":" + h.kind, inB = new Set(b.map(key)), seen = new Set(), items = [];
+  [...a, ...b].forEach(h => { const k = key(h); if (!seen.has(k)){ seen.add(k); items.push(h); } });
+  items.sort((x, y) => y.t - x.t);
+  return {items:items.slice(0, 100), localOnly:a.some(h => !inB.has(key(h)))};
+}
+
+const cloud = {db:null, uid:null, ready:false, note:window.claude && typeof window.claude.use === "function" ? "checking" : "local", timers:{}, busy:{}, again:{}, retried:{}};
+function docRef(name){ return cloud.db.doc(`data/users/${cloud.uid}/${name}`); }
+function persist(name){
+  DB[name].updated = Date.now();
+  local.set(KEYS[name], DB[name]);
+  queuePush(name);
+}
+function queuePush(name, delay = 1500){
+  if (!cloud.ready) return;
+  clearTimeout(cloud.timers[name]);
+  cloud.timers[name] = setTimeout(() => { cloud.timers[name] = 0; push(name); }, delay);
+}
+function flushPushes(){ for (const n of Object.keys(KEYS)) if (cloud.timers[n]){ clearTimeout(cloud.timers[n]); cloud.timers[n] = 0; push(n); } }
+async function push(name){
+  if (!cloud.ready) return;
+  if (cloud.busy[name]){ cloud.again[name] = true; return; }
+  cloud.busy[name] = true;
+  try {
+    await docRef(name).set(JSON.parse(JSON.stringify(DB[name])));
+    cloud.retried[name] = false;
+  } catch (e) {
+    const code = e && e.code;
+    if ((code === "unavailable" || code === "resource_exhausted") && !cloud.retried[name]){ cloud.retried[name] = true; queuePush(name, 3000 + Math.random() * 4000); }
+    else { cloud.ready = false; cloud.note = code === "quota_exceeded" ? "full" : code === "invalid_argument" ? "readonly" : "lost"; refreshSyncNote(); }
+  } finally {
+    cloud.busy[name] = false;
+    if (cloud.again[name]){ cloud.again[name] = false; push(name); }
+  }
+}
+async function initCloud(){
+  const c = window.claude;
+  if (!c || typeof c.use !== "function") return;
+  let db = null, user = null;
+  try { [db, user] = await Promise.all([c.use("db"), c.use("user")]); } catch (e) {}
+  if (!db || !user){ cloud.note = "local"; refreshSyncNote(); return; }
+  let uid = null;
+  try { uid = await user.id(); } catch (e) {}
+  if (!uid){ cloud.note = "signedout"; refreshSyncNote(); return; }
+  cloud.db = db; cloud.uid = uid;
+  const names = Object.keys(KEYS);
+  let snaps;
+  try { snaps = await Promise.all(names.map(n => docRef(n).get())); }
+  catch (e) { cloud.db = null; cloud.note = "local"; refreshSyncNote(); return; }
+  const toPush = [];
+  names.forEach((n, i) => {
+    const r = snaps[i] && snaps[i].exists ? snaps[i].data() : null;
+    if (!r){ if (DB[n].updated) toPush.push(n); return; }
+    const ru = num(r.updated);
+    if (n === "progress"){ if (mergeProgress(DB.progress.q, cleanProgress(r.q))) toPush.push(n); DB.progress.updated = Math.max(DB.progress.updated, ru); }
+    else if (n === "history"){ const m = mergeHistory(DB.history.items, cleanHistory(r.items)); DB.history.items = m.items; if (m.localOnly) toPush.push(n); DB.history.updated = Math.max(DB.history.updated, ru); }
+    else if (n === "settings"){ if (ru > DB.settings.updated) DB.settings = {updated:ru, v:cleanSettings(r.v)}; else if (DB.settings.updated > ru) toPush.push(n); }
+    else if (n === "session"){
+      if (view === "quiz") toPush.push(n);
+      else if (ru > DB.session.updated) DB.session = {updated:ru, s:cleanSession(r.s)};
+      else if (DB.session.updated > ru) toPush.push(n);
+    }
+  });
+  names.forEach(n => local.set(KEYS[n], DB[n]));
+  cloud.ready = true; cloud.note = "cloud";
+  toPush.forEach(n => queuePush(n, 200));
+  if (view === "home") renderHome(activeKey()); else refreshSyncNote();
+}
+function syncText(){
+  return {
+    checking:"Checking for your Claude account. Until then, progress is saved in this browser.",
+    cloud:"Progress is saved to your Claude account, so it follows you to other devices. A copy is kept in this browser.",
+    signedout:"Sign in to Claude to save progress to your account. For now it's saved in this browser only.",
+    full:"Account storage for this page is full, so new progress is saved in this browser only. Export it to keep a backup.",
+    readonly:"Your access to this page doesn't include saving data, so progress is saved in this browser only.",
+    lost:"The connection to your account was lost, so progress is saved in this browser until you reload the page.",
+    local:"Progress is saved in this browser only. Use Export to back it up or move it to another device."
+  }[cloud.note] || "";
+}
+function refreshSyncNote(){ const el = $("#syncNote"); if (el) el.textContent = syncText(); }
+
+// ---------- Spaced repetition (Leitner boxes) ----------
+function srUpdate(id, ok, guessed, now){
+  const p = DB.progress.q[id] || {b:0, due:0, n:0, r:0, last:0, t:0, fx:0};
+  p.n++; if (ok) p.r++;
+  if (ok && !guessed){ p.b = p.b ? Math.min(5, p.b + 1) : 2; p.due = now + INTERVALS[p.b] * DAY; p.last = 1; }
+  else if (ok){ p.b = 1; p.due = now + DAY; p.last = 0; }       // right, but a guess: check it again tomorrow
+  else { p.b = 1; p.due = now; p.last = 0; }                    // wrong: due right away
+  p.t = now;
+  DB.progress.q[id] = p;
+}
+function srStats(now = Date.now()){
+  let due = 0, learning = 0, reviewing = 0, mastered = 0, nextDue = Infinity;
+  for (const [id, p] of Object.entries(DB.progress.q)){
+    if (!QBY[id]) continue;
+    if (p.due <= now) due++; else nextDue = Math.min(nextDue, p.due);
+    if (p.b >= 5) mastered++; else if (p.b >= 3) reviewing++; else learning++;
+  }
+  const seen = learning + reviewing + mastered;
+  return {due, learning, reviewing, mastered, fresh:BANK.length - seen, seen, nextDue};
+}
+function dueIds(now = Date.now()){
+  return Object.entries(DB.progress.q).filter(([id, p]) => QBY[id] && p.due <= now)
+    .sort((a, b) => a[1].due - b[1].due || a[1].b - b[1].b).map(([id]) => id);
+}
+
+// ---------- Drawing questions ----------
+// Scenario questions travel together as one unit.
+function unitsFrom(ids){
+  const inPool = new Set(ids), done = new Set(), out = [];
+  ids.forEach(id => {
+    const q = QBY[id];
+    if (!q.s) out.push([id]);
+    else if (!done.has(q.s)){ done.add(q.s); out.push(SETS[q.s].filter(x => inPool.has(x))); }
+  });
+  return out;
+}
+function takeUnits(units, n){
+  const chosen = []; let count = 0;
+  for (const u of units){
+    if (count >= n) break;
+    if (count + u.length > n && count > 0) continue;
+    chosen.push(u); count += u.length;
+  }
+  return chosen;
+}
+function poolFor(c){ return BANK.filter(q => c.domains.includes(q.d) && (!c.calcOnly || q.c)); }
+function drawCustom(c){
+  const P = DB.progress.q, now = Date.now();
+  const rank = u => {
+    if (c.order === "due"){ const ps = u.map(id => P[id]).filter(Boolean); return ps.some(p => p.due <= now) ? 0 : ps.length ? 2 : 1; }
+    if (c.order === "unseen") return u.every(id => !P[id]) ? 0 : 1;
+    return 0;
+  };
+  const units = shuffle(unitsFrom(poolFor(c).map(q => q.id))).sort((a, b) => rank(a) - rank(b));
+  return shuffle(takeUnits(units, c.len)).flat();
+}
+// A scenario's questions can span SAF domains, so a scenario is drawn under the domain most of its questions share.
+function unitDomain(u){ const n = {}; u.forEach(id => { const t = QBY[id].t; n[t] = (n[t] || 0) + 1; }); return SAF_KEYS.reduce((a, b) => (n[b] || 0) > (n[a] || 0) ? b : a); }
+function drawFull(){
+  const P = DB.progress.q, chosen = [];
+  const exposure = u => Math.max(...u.map(id => P[id] ? P[id].fx : 0));
+  const all = unitsFrom(BANK.map(q => q.id));
+  SAF_KEYS.forEach(t => {
+    const units = shuffle(all.filter(u => unitDomain(u) === t)).sort((a, b) => exposure(a) - exposure(b));
+    chosen.push(...takeUnits(units, BLUEPRINT[t]));
+  });
+  return shuffle(chosen).flat();
+}
+function drawNew(n){ return shuffle(takeUnits(shuffle(unitsFrom(BANK.filter(q => !DB.progress.q[q.id]).map(q => q.id))), n)).flat(); }
+
+// ---------- Session state and clock ----------
+let view = "home", S = null, R = null, ticker = null, running = false, runStart = 0, qEnter = 0, holdClock = false;
+function isStudy(){ return !!S && STUDY_KINDS.has(S.kind); }
+function elapsed(){ return S ? S.used + (running ? Date.now() - runStart : 0) : 0; }
+function timingNow(){ const q = S.qs[S.i]; return running && !(isStudy() && q.p !== null); }
+function commitQ(){ if (qEnter && S) S.qs[S.i].ms += Date.now() - qEnter; qEnter = 0; }
+function startQ(){ S.qs[S.i].v = true; qEnter = timingNow() ? Date.now() : 0; }
+function resumeClock(){ if (!running){ running = true; runStart = Date.now(); } startQ(); clearInterval(ticker); ticker = setInterval(tick, 1000); }
+function pauseClock(){ commitQ(); if (running){ S.used += Date.now() - runStart; running = false; } clearInterval(ticker); }
+function saveSession(){ if (!S) return; commitQ(); DB.session.s = JSON.parse(JSON.stringify({...S, used:elapsed()})); persist("session"); if (running) startQ(); }
+
+async function startSession(kind, ids, opts = {}){
+  if (!ids.length){ announce("No questions match those settings."); return; }
+  if (DB.session.s){
+    const k = await ask({title:"Replace your test in progress?",
+      body:`<p>You have an unfinished ${esc(KIND[DB.session.s.kind].toLowerCase())} test. Starting a new one discards it.</p>`,
+      actions:[{k:"yes", label:"Discard it and start", style:"primary"}, {k:"cancel", label:"Keep it", focus:true}]});
+    if (k !== "yes") return;
+  }
+  S = {kind, qs:ids.map(id => ({id, ord:shuffle([0,1,2,3]), p:null, f:false, g:false, ms:0, v:false})), i:0, used:0, started:Date.now(),
+    limit:opts.limit || 0, formulas:opts.formulas !== false, showMap:false, warned:[]};
+  R = null;
+  enterQuiz();
+}
+function enterQuiz(){
+  view = "quiz"; running = false;
+  resumeClock(); saveSession(); syncTools();
+  renderQuiz("qh"); window.scrollTo(0, 0);
+}
+function resumeSession(){
+  const s = cleanSession(DB.session.s);
+  if (!s){ DB.session.s = null; persist("session"); renderHome(); return; }
+  S = s; R = null; enterQuiz();
+  announce(`Resumed at question ${S.i + 1} of ${S.qs.length}.`);
+}
+async function quitQuiz(){
+  pauseClock(); saveSession(); holdClock = true;
+  const k = await ask({title:"Leave this test?", body:"<p>Your answers and time are saved. You can resume from the home page.</p>",
+    actions:[{k:"leave", label:"Save and leave", style:"primary"}, {k:"discard", label:"Discard test", style:"danger"}, {k:"cancel", label:"Keep going", focus:true}]});
+  holdClock = false;
+  if (!S) return;
+  if (k === "leave" || k === "discard"){
+    if (k === "discard"){ DB.session.s = null; persist("session"); announce("Test discarded."); }
+    S = null; goHome();
+  } else { resumeClock(); renderQuiz("quit"); }
+}
+function tick(){
+  if (view !== "quiz" || !S) return;
+  const el = elapsed(), t = $("#timer");
+  if (S.limit){
+    const left = S.limit - el;
+    if (t){ t.textContent = fmtClock(left) + " left"; t.classList.toggle("low", left < 10 * 60000); }
+    for (const m of [30, 10, 5]) if (left <= m * 60000 && S.limit > m * 60000 && !S.warned.includes(m)){ S.warned.push(m); announce(`${m} minutes left.`); }
+    if (left <= 0){ finish("time"); return; }
+    const p = $("#pace"); if (p){ const pc = paceInfo(); p.textContent = pc.text; p.classList.toggle("behind", pc.behind); }
+  } else if (t) t.textContent = fmtClock(el);
+}
+function paceInfo(){
+  const n = S.qs.length, per = S.limit / n, answered = S.qs.filter(x => x.p !== null).length;
+  const expected = Math.min(n, Math.floor(elapsed() / per)), diff = answered - expected;
+  return diff >= 0
+    ? {behind:false, text:`On pace: ${answered} answered. The target is ${Math.round(per / 1000)} s per question.`}
+    : {behind:true, text:`${plural(-diff, "question")} behind pace: ${answered} answered, ${expected} expected by now.`};
+}
+
+// ---------- Quiz actions ----------
+function pick(k){
+  const q = S.qs[S.i];
+  if (isStudy() && q.p !== null) return;
+  q.p = k;
+  if (isStudy()){
+    commitQ();
+    const ok = q.ord[k] === 0;
+    announce(ok ? (q.g ? "Correct, but marked as a guess." : "Correct.") : `Not quite. The answer is ${LETTERS[q.ord.indexOf(0)]}.`);
+  }
+  saveSession();
+  renderQuiz(isStudy() ? "next" : "c" + k);
+}
+function go(j){
+  if (j < 0 || j >= S.qs.length) return;
+  commitQ(); S.i = j; startQ(); saveSession();
+  renderQuiz("qh"); window.scrollTo(0, 0);
+}
+function next(){
+  const q = S.qs[S.i], last = S.i === S.qs.length - 1;
+  if (isStudy()){ if (q.p === null) return; if (last) finish(); else go(S.i + 1); }
+  else if (last) trySubmit(); else go(S.i + 1);
+}
+function toggleFlag(){ if (isStudy()) return; const q = S.qs[S.i]; q.f = !q.f; saveSession(); renderQuiz("flag"); announce(q.f ? "Flagged." : "Flag removed."); }
+function toggleGuess(){
+  const q = S.qs[S.i];
+  if (isStudy() && q.p !== null) return;
+  q.g = !q.g; saveSession(); renderQuiz("guess");
+  announce(q.g ? "Marked as a guess." : "Guess mark removed.");
+}
+async function trySubmit(){
+  const un = S.qs.filter(x => x.p === null).length, fl = S.qs.filter(x => x.f).length;
+  if (!un && !fl){ finish(); return; }
+  const parts = [];
+  if (un) parts.push(`${plural(un, "unanswered question")}`);
+  if (fl) parts.push(`${plural(fl, "flagged question")}`);
+  const target = un ? S.qs.findIndex(x => x.p === null) : S.qs.findIndex(x => x.f);
+  const k = await ask({title:"Submit this test?", body:`<p>You have ${parts.join(" and ")}.${un ? " Unanswered questions count as wrong." : ""}</p>`,
+    actions:[{k:"goto", label:un ? "Go to first unanswered" : "Go to first flagged"}, {k:"submit", label:"Submit now", style:"primary"}, {k:"cancel", label:"Keep working", focus:true}]});
+  if (!S) return;
+  if (k === "submit") finish();
+  else if (k === "goto") go(target);
+  else renderQuiz(activeKey() || "next");
+}
+function finish(reason){
+  closeDialog();
+  pauseClock();
+  const now = Date.now(), P = DB.progress.q, d = {}, sd = {};
+  let right = 0, gCount = 0, gRight = 0;
+  S.qs.forEach(x => {
+    const Q = QBY[x.id], ok = okOf(x);
+    if (ok) right++;
+    if (x.g){ gCount++; if (ok) gRight++; }
+    d[Q.d] = d[Q.d] || [0, 0]; d[Q.d][1]++; if (ok) d[Q.d][0]++;
+    sd[Q.t] = sd[Q.t] || [0, 0]; sd[Q.t][1]++; if (ok) sd[Q.t][0]++;
+    if (x.p !== null || x.v) srUpdate(x.id, ok, x.g, now);   // questions never reached are not scheduled
+    if (S.kind === "full" && P[x.id]) P[x.id].fx = (P[x.id].fx || 0) + 1;
+  });
+  const pct = Math.round(right / S.qs.length * 100);
+  DB.history.items.unshift({t:now, kind:S.kind, n:S.qs.length, right, pct, ms:S.used, d, sd, g:gCount});
+  DB.history.items = DB.history.items.slice(0, 100);
+  persist("progress"); persist("history");
+  R = {...S, right, pct, ms:S.used, d, sd, gCount, gRight, reason, showAll:false};
+  S = null; DB.session.s = null; persist("session");
+  closeTools();
+  renderResults(); window.scrollTo(0, 0);
+  announce(reason === "time" ? `Time is up. You scored ${pct}%.` : `Test submitted. You scored ${pct}%.`);
+}
+function goHome(){ R = null; view = "home"; closeTools(); renderHome(); window.scrollTo(0, 0); $("#hh") && $("#hh").focus({preventScroll:true}); }
+
+// ---------- Rendering: quiz ----------
+function meta(Q){
+  const ref = REFS[Q.r || DEFAULT_REF[Q.d]];
+  return `<p class="src">${Q.o ? `<span class="asof">Law, tax, or policy detail, accurate as of ${esc(Q.o)}. Recheck before your exam.</span>` : ""}Source: ${esc(ref)}</p>`;
+}
+function scenarioBlock(Q){
+  const sc = Q.s && SCEN[Q.s];
+  return sc ? `<section class="scen" aria-label="Scenario"><p class="eyebrow">Scenario: ${esc(sc.t)}</p><p>${esc(sc.x)}</p></section>` : "";
+}
+function renderQuiz(focus){
+  view = "quiz";
+  const q = S.qs[S.i], Q = QBY[q.id], n = S.qs.length, study = isStudy();
+  const revealed = study && q.p !== null;
+  const answered = S.qs.filter(x => x.p !== null).length, flagged = S.qs.filter(x => x.f).length;
+  const pct = study ? (S.i + (revealed ? 1 : 0)) / n * 100 : answered / n * 100;
+  const ci = q.ord.indexOf(0), last = S.i === n - 1;
+  const el = elapsed(), left = S.limit - el;
+  let fb = "";
+  if (revealed){
+    const ok = q.ord[q.p] === 0;
+    const head = ok ? (q.g ? "Correct, but marked as a guess" : "Correct") : `Not quite. The answer is ${LETTERS[ci]}.`;
+    fb = `<div class="feedback ${ok ? "" : "no"}"><h3>${head}</h3><p>${esc(Q.x)}</p>${ok && q.g ? `<p class="note">It will come back tomorrow so you can confirm you know it.</p>` : ""}${meta(Q)}</div>`;
+  }
+  const choices = q.ord.map((k, j) => {
+    let cls = "", mark = "";
+    if (revealed){
+      if (k === 0){ cls = "right"; mark = `<span class="mark">Correct answer</span>`; }
+      else if (j === q.p){ cls = "wrong"; mark = `<span class="mark">Your answer</span>`; }
+    } else if (j === q.p) cls = "sel";
+    return `<li><button class="choice ${cls}" data-act="pick" data-k="${j}" data-fk="c${j}" ${revealed ? "disabled" : ""} aria-pressed="${j === q.p}"><span class="ltr">${LETTERS[j]}</span><span class="ctext"><span>${esc(Q.a[k])}</span>${mark}</span></button></li>`;
+  }).join("");
+  let nav;
+  if (study){
+    nav = revealed
+      ? `<div class="navrow"><button class="primary" data-act="next" data-fk="next">${last ? "See results" : "Next question"}</button></div>`
+      : `<div class="guessrow"><button class="secondary small" data-act="guess" data-fk="guess" aria-pressed="${q.g}">${q.g ? "Marked as a guess" : "I'm guessing"}</button><span class="note">If you get it right, it still comes back tomorrow.</span></div>`;
+  } else {
+    nav = `<div class="navrow">
+        <button class="secondary" data-act="prev" data-fk="prev" ${S.i === 0 ? "disabled" : ""}>Previous</button>
+        <button class="secondary" data-act="flag" data-fk="flag" aria-pressed="${q.f}">${q.f ? "Flagged" : "Flag"}</button>
+        <button class="secondary" data-act="guess" data-fk="guess" aria-pressed="${q.g}">${q.g ? "Guess marked" : "Guess"}</button>
+        <button class="primary" data-act="next" data-fk="next">${last ? "Submit test" : "Next"}</button>
+      </div>
+      <div class="mapwrap">
+        <div class="btnrow"><button class="link" data-act="maptog" data-fk="maptog" aria-expanded="${S.showMap}">${S.showMap ? "Hide" : "Show"} question map</button>
+        <span class="note">${answered} of ${n} answered${flagged ? `, ${flagged} flagged` : ""}</span></div>
+        ${S.showMap ? `<div class="qmap">${S.qs.map((x, k) => `<button data-act="jump" data-j="${k}" data-fk="m${k}" class="${x.p !== null ? "ans" : ""} ${x.f ? "flg" : ""} ${k === S.i ? "cur" : ""}" aria-label="Question ${k + 1}${x.p !== null ? ", answered" : ", unanswered"}${x.f ? ", flagged" : ""}${k === S.i ? ", current" : ""}">${k + 1}</button>`).join("")}</div>
+        <p class="qmaplegend"><span>Green: answered</span><span>Orange underline: flagged</span><span>Bold: current</span></p>
+        <div><button class="link" data-act="submit" data-fk="submit">Submit test now</button></div>` : ""}
+      </div>`;
+  }
+  const pc = S.limit ? paceInfo() : null;
+  const fAllowed = formulasAllowed();
+  app.innerHTML = `
+    <div class="topbar"><button class="link" data-act="quit" data-fk="quit">Quit</button><span>Question ${S.i + 1} of ${n}</span>
+      <span class="timer ${S.limit && left < 10 * 60000 ? "low" : ""}" id="timer">${S.limit ? fmtClock(left) + " left" : fmtClock(el)}</span></div>
+    <div class="toolrow"><span class="kindtag">${KIND[S.kind]}</span>
+      <span class="toolbtns"><button class="toolbtn" data-act="tool" data-tool="formulas" data-fk="tf" aria-pressed="${toolsOpen() && toolsTab === "formulas"}" ${fAllowed ? "" : `disabled title="Turned off for this exam"`}>Formula sheet</button>
+      <button class="toolbtn" data-act="tool" data-tool="calc" data-fk="tc" aria-pressed="${toolsOpen() && toolsTab === "calc"}">Calculator</button></span></div>
+    <div class="track" aria-hidden="true"><div class="fill" style="width:${Math.max(pct, 2)}%"></div></div>
+    ${pc ? `<p class="pace ${pc.behind ? "behind" : ""}" id="pace">${pc.text}</p>` : ""}
+    ${scenarioBlock(Q)}
+    <p class="dtag"><span>${esc(DOMAINS[Q.d])}</span><span class="pill">${esc(SAF[Q.t])}</span>${Q.c ? `<span class="pill">Calculation</span>` : ""}</p>
+    <h2 class="qtext" id="qh" tabindex="-1">${esc(Q.q)}</h2>
+    <ol class="choices">${choices}</ol>
+    ${fb}${nav}
+    <p class="keys">Keys: 1–4 or A–D answer${study ? "" : " · F flag · ← → move"} · G mark a guess · Enter next</p>`;
+  if (focus === "qh") $("#qh").focus({preventScroll:true}); else focusKey(focus);
+}
+
+// ---------- Rendering: results ----------
+function renderResults(focus){
+  view = "results";
+  const r = R, n = r.qs.length, passed = r.pct >= PASS;
+  const missed = r.qs.filter(x => !okOf(x)), toReview = r.qs.filter(x => !okOf(x) || x.g);
+  const list = r.showAll ? r.qs : toReview;
+  const avg = r.qs.reduce((s, x) => s + x.ms, 0) / n;
+  const slow = r.qs.slice().sort((a, b) => b.ms - a.ms).slice(0, 5).filter(x => x.ms >= 1000);
+  const dueN = srStats().due;
+  const tByDom = {}, tBySaf = {};
+  r.qs.forEach(x => { const Q = QBY[x.id]; tByDom[Q.d] = (tByDom[Q.d] || 0) + x.ms; tBySaf[Q.t] = (tBySaf[Q.t] || 0) + x.ms; });
+  const drows = (keys, names, tally, times) => keys.filter(k => tally[k]).map(k => { const [a, t] = tally[k], p = Math.round(a / t * 100);
+    return `<div class="drow"><span>${esc(names[k])}</span><span class="tm">${fmtSec(times[k] / t)} each</span><span class="num">${a}/${t}</span><div class="bar"><i class="${p < PASS ? "low" : ""}" style="width:${p}%"></i></div></div>`; }).join("");
+  app.innerHTML = `
+    <h1 class="sr-only" id="rh" tabindex="-1">Results: ${r.pct}%</h1>
+    <div class="topbar"><span>Results</span><span>${KIND[r.kind]}</span></div>
+    <div class="track" aria-hidden="true"><div class="fill" style="width:${Math.max(r.pct, 2)}%"></div></div>
+    <p class="score ${passed ? "pass" : "fail"}">${r.pct}%</p>
+    <p class="verdict">${passed ? "At or above" : "Below"} the 75% practice target.</p>
+    <p class="sub">${r.right} of ${n} correct in ${fmtDur(r.ms)} · about ${fmtSec(avg)} per question</p>
+    ${r.reason === "time" ? `<p class="callout" style="margin-top:14px">Time ran out. Unanswered questions count as wrong.</p>` : ""}
+    ${r.gCount ? `<p class="note" style="margin-top:10px">You marked ${plural(r.gCount, "answer")} as a guess, and ${r.gRight} ${r.gRight === 1 ? "was" : "were"} right. Guessed questions come back for review tomorrow.</p>` : ""}
+    ${r.kind === "retake" || r.kind === "review" ? `<p class="note" style="margin-top:10px">${KIND[r.kind]} sessions aren't counted in your topic trends, since they focus on questions you've already missed.</p>` : ""}
+    <div class="btnstack">
+      ${toReview.length ? `<button class="primary" data-act="retake" data-fk="retake">Retake the ${plural(toReview.length, "question")} to review</button>` : ""}
+      ${dueN ? `<button class="secondary" data-act="review" data-fk="review">Review ${Math.min(dueN, 50)} due</button>` : ""}
+      <button class="${toReview.length ? "secondary" : "primary"}" data-act="home" data-fk="home">Back to home</button>
+    </div>
+    <section class="panel"><h2>By SAF exam domain</h2><div>${drows(SAF_KEYS, SAF, r.sd || {}, tBySaf)}</div></section>
+    <section class="panel"><h2>By subject</h2><div>${drows(DOM_KEYS, DOMAINS, r.d, tByDom)}</div></section>
+    ${slow.length ? `<section class="panel"><h2>Where your time went</h2><ol class="slow">${slow.map(x => { const Q = QBY[x.id];
+        return `<li><b>${fmtSec(x.ms)}</b> · ${okOf(x) ? "right" : "wrong"} · ${esc(DOMAINS[Q.d])}<br><span class="note">${esc(Q.q)}</span></li>`; }).join("")}</ol></section>` : ""}
+    <section class="panel"><h2>${r.showAll ? "All questions" : "Questions to review"}</h2><div style="display:grid;gap:16px">
+      ${list.length ? list.map(x => {
+        const Q = QBY[x.id], ok = okOf(x), sc = Q.s && SCEN[Q.s];
+        return `<div class="rev">
+          <div class="tagrow"><span class="dtag" style="margin:0">${esc(DOMAINS[Q.d])}</span>${x.g ? `<span class="tag g">Guess</span>` : ""}${x.f ? `<span class="tag">Flagged</span>` : ""}<span class="note">${fmtSec(x.ms)}</span></div>
+          ${sc ? `<details><summary>Scenario: ${esc(sc.t)}</summary><p>${esc(sc.x)}</p></details>` : ""}
+          <h3 class="qtext">${esc(Q.q)}</h3>
+          <p class="yours ${ok ? "ok" : ""}">Your answer: ${x.p === null ? "none" : esc(Q.a[x.ord[x.p]])}</p>
+          ${ok ? "" : `<p class="ans">Correct answer: ${esc(Q.a[0])}</p>`}
+          <p class="ex">${esc(Q.x)}</p>${meta(Q)}</div>`; }).join("") : `<p class="note">You answered every question correctly without guessing.</p>`}
+    </div><div><button class="link" data-act="toggleAll" data-fk="toggleAll">${r.showAll ? "Show only questions to review" : "Show all questions"}</button></div></section>`;
+  if (focus) focusKey(focus); else $("#rh").focus({preventScroll:true});
+}
+
+// ---------- Rendering: home ----------
+function spark(points){
+  if (!points.length) return `<span class="nodata">No tests yet</span>`;
+  const W = 120, H = 32, P = 5, n = points.length;
+  const x = i => n === 1 ? W / 2 : P + i * (W - 2 * P) / (n - 1);
+  const y = v => H - P - v * (H - 2 * P);
+  const ref = y(PASS / 100).toFixed(1), lastP = points[n - 1];
+  const label = `Last ${plural(n, "test")}: ${points.map(p => Math.round(p.v * 100) + "%").join(", ")}`;
+  return `<svg class="spark" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="${esc(label)}">
+    <line class="ref" x1="${P}" x2="${W - P}" y1="${ref}" y2="${ref}"></line>
+    ${n > 1 ? `<polyline class="ln" points="${points.map((p, i) => `${x(i).toFixed(1)},${y(p.v).toFixed(1)}`).join(" ")}"></polyline>` : ""}
+    <circle class="end" cx="${x(n - 1).toFixed(1)}" cy="${y(lastP.v).toFixed(1)}" r="3.5"></circle>
+    ${points.map((p, i) => `<circle class="hit" cx="${x(i).toFixed(1)}" cy="${y(p.v).toFixed(1)}" r="8" data-tip="${esc(`${fmtDate(p.t)} · ${p.r}/${p.n} (${Math.round(p.v * 100)}%)`)}"></circle>`).join("")}
+  </svg>`;
+}
+// byField is "d" (subject; history tally h.d) or "t" (SAF domain; history tally h.sd).
+function readiness(byField = "d"){
+  const P = DB.progress.q, keys = byField === "t" ? SAF_KEYS : DOM_KEYS, tallyOf = h => byField === "t" ? h.sd || {} : h.d;
+  const sessions = DB.history.items.filter(h => TREND_KINDS.has(h.kind)).slice().reverse();
+  return keys.map(d => {
+    const qs = BANK.filter(q => q[byField] === d), seen = qs.filter(q => P[q.id]);
+    const acc = seen.length ? seen.filter(q => P[q.id].last).length / seen.length : null;
+    const pts = sessions.filter(h => tallyOf(h)[d] && tallyOf(h)[d][1] >= 2).slice(-12).map(h => { const v = tallyOf(h)[d]; return {t:h.t, r:v[0], n:v[1], v:v[0] / v[1]}; });
+    return {d, name:byField === "t" ? SAF[d] : DOMAINS[d], total:qs.length, seen:seen.length, acc, pts};
+  });
+}
+let readyBy = "t";
+function lintBank(){
+  const issues = [], ids = new Set();
+  let longest = 0, guess = 0;
+  BANK.forEach(q => {
+    if (ids.has(q.id)) issues.push(`${q.id}: duplicate id`);
+    ids.add(q.id);
+    if (!DOMAINS[q.d]) issues.push(`${q.id}: unknown topic`);
+    if (!SAF[q.t]) issues.push(`${q.id}: missing or unknown SAF domain`);
+    if (!Array.isArray(q.a) || q.a.length !== 4 || new Set(q.a).size !== 4){ issues.push(`${q.id}: needs 4 different answers`); return; }
+    if (q.s && !SCEN[q.s]) issues.push(`${q.id}: unknown scenario`);
+    if (q.r && !REFS[q.r]) issues.push(`${q.id}: unknown source`);
+    const L = q.a.map(s => s.length), max = Math.max(...L), ties = L.filter(l => l === max).length, nextL = Math.max(...L.slice(1));
+    if (L[0] === max){ guess += 1 / ties; if (ties === 1) longest++; }
+    if (L[0] > nextL * 1.15 && L[0] - nextL >= 6) issues.push(`${q.id}: the right answer is noticeably the longest (${L[0]} vs ${nextL} characters)`);
+  });
+  return {issues, longestPct:100 * longest / BANK.length, guessPct:100 * guess / BANK.length};
+}
+const LINT = lintBank();
+console[LINT.issues.length ? "warn" : "info"](`Question bank check: ${BANK.length} questions, ${LINT.issues.length} issues. Always picking the longest answer would score ${LINT.guessPct.toFixed(1)}%.`, LINT.issues);
+
+function renderHome(focus){
+  view = "home"; clearInterval(ticker);
+  const c = DB.settings.v, st = srStats(), sess = DB.session.s, pool = poolFor(c).length;
+  const rows = readiness(readyBy), weak = readiness("d").filter(r => r.seen >= 5).sort((a, b) => a.acc - b.acc)[0];
+  const hist = DB.history.items.slice(0, 8);
+  const seg = (k, v, cur, label) => `<button data-act="${k}" data-v="${v}" data-fk="${k}-${v}" aria-pressed="${cur === v}">${label}</button>`;
+  const pctBar = (n, cls) => n ? `<i class="${cls}" style="flex:${n}"></i>` : "";
+  let resume = "";
+  if (sess){
+    const answered = sess.qs.filter(x => x.p !== null).length;
+    resume = `<section class="panel resume"><div class="phead"><h2>Test in progress</h2><span class="note">${KIND[sess.kind]}</span></div>
+      <p>Question ${sess.i + 1} of ${sess.qs.length} · ${answered} answered · ${sess.limit ? fmtClock(sess.limit - sess.used) + " left" : fmtDur(sess.used) + " so far"}</p>
+      <div class="btnrow"><button class="primary" data-act="resume" data-fk="resume">Resume test</button><button class="secondary" data-act="discard" data-fk="discard">Discard</button></div></section>`;
+  }
+  const lint = location.hash === "#lint" ? `<section class="panel lint"><h2>Question bank check</h2>
+    <p class="note">${BANK.length} questions. The right answer is the single longest option in ${LINT.longestPct.toFixed(0)}% of questions (chance is 25%), so always picking the longest answer would score ${LINT.guessPct.toFixed(1)}%.</p>
+    ${LINT.issues.length ? `<ul>${LINT.issues.map(i => `<li>${esc(i)}</li>`).join("")}</ul>` : `<p>No issues found.</p>`}</section>` : "";
+
+  app.innerHTML = `
+  <header class="mast">
+    <p class="eyebrow">Practice for the SAF Certified Forester exam</p>
+    <h1 id="hh" tabindex="-1">Certified Forester practice exams</h1>
+    <p class="lede">${BANK.length} original practice questions, tagged by SAF's four exam domains and eight forestry subjects, with spaced review, full-length timed exams, a formula sheet, and a calculator.</p>
+    <div class="toolbtns" style="margin-top:14px"><button class="toolbtn" data-act="tool" data-tool="formulas" data-fk="tf" aria-pressed="${toolsOpen() && toolsTab === "formulas"}">Formula sheet</button><button class="toolbtn" data-act="tool" data-tool="calc" data-fk="tc" aria-pressed="${toolsOpen() && toolsTab === "calc"}">Calculator</button></div>
+  </header>
+  <div class="tape-rule" aria-hidden="true"></div>
+  ${lint}${resume}
+  <section class="panel">
+    <div class="phead"><h2>Spaced review</h2><span class="count">${st.due} due</span></div>
+    <p>Questions you miss come back right away. Ones you know come back after longer and longer gaps: 1, 3, 7, 16, then 35 days.</p>
+    <div class="srbar" role="img" aria-label="${st.mastered} mastered, ${st.reviewing} reviewing, ${st.learning} learning, ${st.fresh} not seen yet">${pctBar(st.mastered, "sw-m")}${pctBar(st.reviewing, "sw-r")}${pctBar(st.learning, "sw-l")}${pctBar(st.fresh, "sw-n")}</div>
+    <ul class="srlegend"><li><i class="sw-m"></i>Mastered <b>${st.mastered}</b></li><li><i class="sw-r"></i>Reviewing <b>${st.reviewing}</b></li><li><i class="sw-l"></i>Learning <b>${st.learning}</b></li><li><i class="sw-n"></i>Not seen <b>${st.fresh}</b></li></ul>
+    <div class="btnrow">
+      ${st.due ? `<button class="primary" data-act="review" data-fk="review">Review ${st.due > 50 ? `50 of ${st.due}` : st.due} due</button>` : `<p class="note" style="flex:1 1 220px">Nothing is due${Number.isFinite(st.nextDue) ? `. The next review is ${relDay(st.nextDue)}` : ""}.</p>`}
+      <button class="secondary" data-act="learn" data-fk="learn" ${st.fresh ? "" : "disabled"}>Learn ${Math.min(10, st.fresh) || 10} new questions</button>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>Full practice exam</h2>
+    <p>${FULL_N} multiple-choice questions, like the real exam, drawn across SAF's four exam domains, with a countdown and pace tracking. Each exam draws the questions you've seen least in earlier full exams, so you get fresh ones for several exams.</p>
+    <fieldset><legend>Time limit</legend><div class="seg" style="--n:5">${LIMITS.map(([m, l]) => seg("limit", m, c.fullLimit, l)).join("")}</div></fieldset>
+    <p class="note">SAF doesn't publish the CF time limit on its public pages. 3 hours matches its other 150-question exams; confirm yours when you schedule.</p>
+    <label class="check"><input type="checkbox" data-act="hideF" data-fk="hideF" id="hideF" ${c.hideFormulas ? "checked" : ""}><span>Hide the formula sheet. SAF provides one on exam day, so hide it only to drill recall. The calculator is always available.</span></label>
+    <details class="mix"><summary>Domain mix</summary><ul class="mixlist">${SAF_KEYS.map(t => `<li><span>${esc(SAF[t])}</span><b>${BLUEPRINT[t]}</b></li>`).join("")}</ul>
+      <p class="note" style="margin-top:8px">The four domains are SAF's. The number of questions from each is an estimate until checked against SAF's published weights in the Certification Handbook.</p></details>
+    <button class="primary" data-act="startFull" data-fk="startFull">Start full exam</button>
+    <p class="note">The clock pauses if you leave the page, and answers are saved as you go.</p>
+  </section>
+
+  <section class="panel">
+    <h2>Build a test</h2>
+    <fieldset><legend>Topics</legend>
+      <div class="chips">${DOM_KEYS.map(k => `<button class="chip" data-act="chip" data-d="${k}" data-fk="chip-${k}" aria-pressed="${c.domains.includes(k)}">${esc(DOMAINS[k])}<small>${COUNT[k]}</small></button>`).join("")}</div>
+      <div style="margin-top:8px"><button class="link" data-act="allTopics" data-fk="allTopics">${c.domains.length === DOM_KEYS.length ? "Clear all topics" : "Select all topics"}</button></div>
+    </fieldset>
+    <fieldset><legend>Number of questions</legend><div class="seg">${[10, 25, 50, 100].map(v => seg("len", v, c.len, String(v))).join("")}</div></fieldset>
+    <fieldset><legend>Mode</legend><div class="modes">
+      <button class="mode" data-act="mode" data-v="study" data-fk="mode-study" aria-pressed="${c.mode === "study"}"><strong>Study</strong><span>See the answer and explanation after each question.</span></button>
+      <button class="mode" data-act="mode" data-v="exam" data-fk="mode-exam" aria-pressed="${c.mode === "exam"}"><strong>Exam</strong><span>Answer everything, flag questions to revisit, and see results at the end.</span></button>
+    </div></fieldset>
+    <fieldset><legend>Which questions first</legend><div class="seg" style="--n:3">${seg("order", "random", c.order, "Random")}${seg("order", "due", c.order, "Due for review")}${seg("order", "unseen", c.order, "Not seen yet")}</div></fieldset>
+    <label class="check"><input type="checkbox" data-act="calcOnly" data-fk="calcOnly" id="calcOnly" ${c.calcOnly ? "checked" : ""}><span>Calculation questions only (${BANK.filter(q => q.c && c.domains.includes(q.d)).length} in these topics)</span></label>
+    <button class="primary" data-act="startCustom" data-fk="startCustom" ${pool ? "" : "disabled"}>Start test</button>
+    <p class="note">${pool ? (pool < c.len ? `Only ${pool} questions match, so the test will use all of them.` : `Drawing ${c.len} of ${pool} matching questions. Scenario questions stay together.`) : "Choose at least one topic to start."}</p>
+  </section>
+
+  <section class="panel">
+    <h2>Readiness</h2>
+    <div class="seg" role="group" aria-label="Group readiness by" style="--n:2">${seg("readyBy", "t", readyBy, "SAF exam domain")}${seg("readyBy", "d", readyBy, "Subject")}</div>
+    <p class="note">Accuracy counts your latest answer to each question you've seen; guesses count as not known. The trend shows your last 12 study, exam, and full-exam results, with a dashed line at 75%.</p>
+    <div class="ready">
+      <div class="rrow rhead" aria-hidden="true"><span>${readyBy === "t" ? "Domain" : "Subject"}</span><span style="text-align:right">Seen</span><span>Accuracy</span><span>Trend</span></div>
+      ${rows.map(r => { const p = r.acc === null ? null : Math.round(r.acc * 100);
+        return `<div class="rrow"><span>${esc(r.name)}</span><span class="seen">${r.seen}/${r.total}</span>
+          <span class="acc">${p === null ? `<span class="nodata">Not started</span>` : `<span class="meter"><i class="${p < PASS ? "low" : ""}" style="width:${p}%"></i><b class="tick"></b></span><b>${p}%</b>${p < PASS ? `<span class="sr-only">, below 75%</span>` : ""}`}</span>
+          <span class="trend">${spark(r.pts)}</span></div>`; }).join("")}
+    </div>
+    ${weak ? `<p class="callout">Weakest subject: <strong>${esc(DOMAINS[weak.d])}</strong> at ${Math.round(weak.acc * 100)}%. <button class="link" data-act="practice" data-d="${weak.d}" data-fk="practice">Practice 25 from this topic</button></p>` : `<p class="note">Your weakest topic will appear here once you've answered at least 5 questions in a topic.</p>`}
+  </section>
+
+  <section class="panel">
+    <h2>Recent scores</h2>
+    ${hist.length ? `<ul class="hist">${hist.map(h => `<li><span>${fmtDate(h.t)} · ${KIND[h.kind]} · ${plural(h.n, "question")}</span><span class="pct ${TREND_KINDS.has(h.kind) ? (h.pct >= PASS ? "pass" : "fail") : "muted"}">${h.pct}%</span></li>`).join("")}</ul>`
+      : `<p class="note">Your scores will appear here after your first test.</p>`}
+  </section>
+
+  <section class="panel">
+    <h2>Your progress data</h2>
+    <p class="note" id="syncNote">${esc(syncText())}</p>
+    <div class="btnrow"><button class="secondary" data-act="export" data-fk="export">Export progress</button><button class="secondary" data-act="import" data-fk="import">Import progress</button><button class="link danger" data-act="reset" data-fk="reset">Reset progress</button></div>
+  </section>
+
+  <footer class="fine">
+    <p>These are original practice questions written for this tool from standard forestry references such as the <em>Forestry Handbook</em>. They are not official exam questions, and this tool isn't affiliated with the Society of American Foresters. Check SAF's current Certification Handbook for the exam format, content areas, time limit, and passing score. SAF reports a scaled score where 75 passes; the raw percentage that takes varies by exam form, so the 75% line here is a practice target, not a prediction.</p>
+    <p>Each explanation names a standard reference that covers the topic; these aren't page citations. Questions about law, tax, or policy show the date they were last checked.</p>
+    <p>Keyboard: 1–4 or A–D answer · G mark a guess · F flag and ← → move in exams · Enter next · Esc closes the tools panel.</p>
+  </footer>`;
+  focusKey(focus);
+}
+
+// ---------- In-page dialogs (the artifact viewer blocks confirm()) ----------
+// Each button settles the choice directly; the dialog's close event isn't relied on, since some views delay it.
+const dlg = $("#dlg");
+let settleDialog = null;
+function closeDialog(){ if (settleDialog) settleDialog("cancel"); else if (dlg.open) dlg.close(); }
+function ask({title, body, actions, onOpen}){
+  closeDialog();
+  return new Promise(resolve => {
+    let settled = false;
+    const onCancel = e => { e.preventDefault(); settle("cancel"); };   // Esc
+    function settle(k){
+      if (settled) return;
+      settled = true; settleDialog = null;
+      dlg.removeEventListener("cancel", onCancel);
+      if (dlg.open) dlg.close();
+      resolve(k);
+    }
+    settleDialog = settle;
+    $("#dlgT").textContent = title;
+    $("#dlgB").innerHTML = body;
+    $("#dlgA").innerHTML = actions.map(a => `<button type="button" data-k="${a.k}" class="${a.style === "primary" ? "primary" : a.style === "danger" ? "dangerbtn" : "secondary"}" ${a.focus ? "autofocus" : ""}>${esc(a.label)}</button>`).join("");
+    $("#dlgA").querySelectorAll("button").forEach(b => b.addEventListener("click", () => settle(b.dataset.k)));
+    dlg.addEventListener("cancel", onCancel);
+    dlg.showModal();
+    if (onOpen) onOpen();
+  });
+}
+
+// ---------- Export / import / reset ----------
+function exportJSON(){ return JSON.stringify({app:"certified-forester-practice", v:2, exported:new Date().toISOString(), progress:DB.progress, history:DB.history, settings:DB.settings}); }
+async function exportData(){
+  const data = exportJSON(), filename = `forester-progress-${new Date().toISOString().slice(0, 10)}.json`;
+  let dl = null;
+  try { dl = window.claude && typeof window.claude.use === "function" ? await window.claude.use("downloads") : null; } catch (e) {}
+  if (dl){
+    try { await dl.save({filename, data}); announce("Progress file saved."); return; }
+    catch (e) { if (e && (e.code === "declined" || e.code === "rate_limited")) return; }
+  }
+  ask({title:"Copy your progress", body:`<p>Copy this text and keep it somewhere safe, such as a note or email to yourself. To restore it, choose Import progress and paste it in.</p>
+      <textarea id="expT" rows="6" readonly>${esc(data)}</textarea><div><button type="button" class="secondary small" id="expCopy">Copy to clipboard</button> <span class="note" id="expMsg" aria-live="polite"></span></div>`,
+    actions:[{k:"cancel", label:"Done", style:"primary", focus:true}],
+    onOpen(){
+      $("#expCopy").addEventListener("click", () => {
+        const ta = $("#expT"), msg = $("#expMsg");
+        const fallback = () => { ta.focus(); ta.select(); msg.textContent = "Selected. Press Ctrl+C (or ⌘C) to copy."; };
+        try { navigator.clipboard.writeText(data).then(() => { msg.textContent = "Copied."; }, fallback); } catch (e) { fallback(); }
+      });
+    }});
+}
+function importData(){
+  ask({title:"Import progress", body:`<p>Choose a progress file you exported, or paste its text below. Imported progress is combined with what's already here; nothing is deleted.</p>
+      <label class="sr-only" for="impF">Progress file</label><input type="file" id="impF" accept=".json,application/json,text/plain">
+      <label class="sr-only" for="impT">Progress text</label><textarea id="impT" rows="5" placeholder="Or paste exported text here"></textarea><p class="err" id="impErr" hidden></p>`,
+    actions:[{k:"import", label:"Import", style:"primary"}, {k:"cancel", label:"Cancel", focus:true}],
+    onOpen(){
+      $("#impF").addEventListener("change", e => {
+        const f = e.target.files && e.target.files[0]; if (!f) return;
+        const rd = new FileReader(); rd.onload = () => { $("#impT").value = String(rd.result || ""); }; rd.readAsText(f);
+      });
+    }}).then(k => {
+      if (k !== "import") return;
+      const text = (document.getElementById("impT") || {}).value || "";
+      let src = null; try { src = JSON.parse(text); } catch (e) {}
+      if (!isObj(src) || !isObj(src.progress) || !isObj(src.history)){
+        ask({title:"That didn't import", body:"<p>The text isn't a progress export from this page. Export again and paste the whole text, from the first { to the last }.</p>", actions:[{k:"ok", label:"OK", style:"primary"}]});
+        return;
+      }
+      const prog = cleanProgress(src.progress.q), hist = cleanHistory(src.history.items);
+      mergeProgress(DB.progress.q, prog);
+      DB.history.items = mergeHistory(DB.history.items, hist).items;
+      persist("progress"); persist("history");
+      renderHome("import");
+      announce(`Imported progress for ${plural(Object.keys(prog).length, "question")} and ${plural(hist.length, "test result")}.`);
+    });
+}
+async function resetData(){
+  const k = await ask({title:"Reset progress", body:"<p>Clearing score history removes recent scores and topic trends. Resetting everything also clears your review schedule, so every question counts as new. This can't be undone, so consider exporting first.</p>",
+    actions:[{k:"history", label:"Clear score history"}, {k:"all", label:"Reset everything", style:"danger"}, {k:"cancel", label:"Cancel", style:"primary", focus:true}]});
+  if (k !== "history" && k !== "all") { focusKey("reset"); return; }
+  DB.history.items = []; persist("history");
+  if (k === "all"){ DB.progress.q = {}; persist("progress"); }
+  renderHome("reset");
+  announce(k === "all" ? "All progress reset." : "Score history cleared.");
+}
+
+// ---------- Tools panel ----------
+const tools = $("#tools");
+let toolsTab = "calc", toolsReturn = null;
+function toolsOpen(){ return !tools.hidden; }
+function formulasAllowed(){ return !(view === "quiz" && S && !S.formulas); }
+function syncTools(){
+  const ok = formulasAllowed();
+  $("#fOff").hidden = ok; $("#fOn").hidden = !ok;
+  if (!ok && toolsTab === "formulas") showTab("calc");
+}
+function showTab(tab){
+  toolsTab = tab;
+  $("#paneF").hidden = tab !== "formulas"; $("#paneC").hidden = tab !== "calc";
+  $("#tabF").setAttribute("aria-pressed", tab === "formulas"); $("#tabC").setAttribute("aria-pressed", tab === "calc");
+  app.querySelectorAll("[data-act=tool]").forEach(b => b.setAttribute("aria-pressed", toolsOpen() && b.dataset.tool === tab));
+}
+function openTools(tab, from){
+  if (tab === "formulas" && !formulasAllowed()) tab = "calc";
+  toolsReturn = from || null;
+  tools.hidden = false; document.body.classList.add("tools-open");
+  syncTools(); showTab(tab);
+  if (matchMedia("(pointer: fine)").matches) (tab === "calc" ? $("#calcIn") : $("#fSearch")).focus();
+  else (tab === "calc" ? $("#tabC") : $("#tabF")).focus();
+}
+function closeTools(){
+  if (!toolsOpen()) return;
+  tools.hidden = true; document.body.classList.remove("tools-open");
+  app.querySelectorAll("[data-act=tool]").forEach(b => b.setAttribute("aria-pressed", "false"));
+  if (toolsReturn && document.contains(toolsReturn)) toolsReturn.focus();
+  toolsReturn = null;
+}
+$("#toolsClose").addEventListener("click", closeTools);
+$("#tabF").addEventListener("click", () => showTab("formulas"));
+$("#tabC").addEventListener("click", () => showTab("calc"));
+tools.addEventListener("keydown", e => { if (e.key === "Escape"){ e.stopPropagation(); closeTools(); } });
+$("#fSearch").addEventListener("input", e => {
+  const term = e.target.value.trim().toLowerCase();
+  let shown = 0;
+  document.querySelectorAll("#fList .fsec").forEach(sec => {
+    let any = false;
+    sec.querySelectorAll("dt").forEach(dt => {
+      const dd = dt.nextElementSibling, hit = !term || (dt.textContent + " " + dd.textContent + " " + sec.querySelector("h3").textContent).toLowerCase().includes(term);
+      dt.hidden = dd.hidden = !hit; if (hit){ any = true; shown++; }
+    });
+    sec.hidden = !any;
+  });
+  $("#fEmpty").hidden = shown > 0;
+});
+
+// ---------- Calculator ----------
+const calc = {ans:0, tape:[]};
+const calcIn = $("#calcIn"), calcOut = $("#calcOut");
+let caret = null;
+function calcTokens(src){
+  const s = src.replace(/(\d),(?=\d{3}(?!\d))/g, "$1").replace(/[×✕]/g, "*").replace(/÷/g, "/").replace(/[−–]/g, "-")
+    .replace(/π/g, " pi ").replace(/√/g, " sqrt ").replace(/²/g, "^2").replace(/³/g, "^3");
+  const toks = [];
+  let i = 0;
+  while (i < s.length){
+    const ch = s[i];
+    if (/\s/.test(ch)){ i++; continue; }
+    const rest = s.slice(i);
+    const m = /^(\d+\.?\d*|\.\d+)(e[+-]?\d+)?/i.exec(rest);
+    if (m){ toks.push({t:"n", v:parseFloat(m[0])}); i += m[0].length; continue; }
+    const w = /^[a-z]+/i.exec(rest);
+    if (w){ toks.push({t:"w", v:w[0].toLowerCase()}); i += w[0].length; continue; }
+    if ("+-*/^()%".includes(ch)){ toks.push({t:ch}); i++; continue; }
+    throw new Error(`"${ch}" isn't something this calculator understands.`);
+  }
+  return toks;
+}
+function calcEval(src){
+  const toks = calcTokens(src);
+  if (!toks.length) throw new Error("Type an expression first.");
+  let p = 0;
+  const peek = () => toks[p], take = () => toks[p++];
+  const rad = Math.PI / 180;
+  const FN = {sqrt:Math.sqrt, ln:Math.log, log:Math.log10, exp:Math.exp, abs:Math.abs,
+    sin:x => Math.sin(x * rad), cos:x => Math.cos(x * rad), tan:x => Math.tan(x * rad),
+    asin:x => Math.asin(x) / rad, acos:x => Math.acos(x) / rad, atan:x => Math.atan(x) / rad};
+  const CONST = {pi:Math.PI, e:Math.E, ans:calc.ans};
+  const startsPrimary = t => t && (t.t === "n" || t.t === "w" || t.t === "(");
+  function expr(){ let v = term(); while (peek() && (peek().t === "+" || peek().t === "-")){ const op = take().t, r = term(); v = op === "+" ? v + r : v - r; } return v; }
+  function term(){
+    let v = unary();
+    for (;;){
+      const t = peek();
+      if (t && (t.t === "*" || t.t === "/")){ take(); const r = unary(); v = t.t === "*" ? v * r : v / r; }
+      else if (startsPrimary(t)) v *= unary();   // implicit multiplication, as in 2(3) or 2π
+      else return v;
+    }
+  }
+  function unary(){ const t = peek(); if (t && t.t === "-"){ take(); return -unary(); } if (t && t.t === "+"){ take(); return unary(); } return power(); }
+  function power(){ const b = postfix(); if (peek() && peek().t === "^"){ take(); return Math.pow(b, unary()); } return b; }
+  function postfix(){ let v = primary(); while (peek() && peek().t === "%"){ take(); v /= 100; } return v; }
+  function primary(){
+    const t = take();
+    if (!t) throw new Error("The expression ends too soon.");
+    if (t.t === "n") return t.v;
+    if (t.t === "("){ const v = expr(), c = take(); if (!c || c.t !== ")") throw new Error("A closing parenthesis is missing."); return v; }
+    if (t.t === "w"){
+      if (t.v in CONST) return CONST[t.v];
+      if (FN[t.v]){ const arg = peek() && peek().t === "(" ? primary() : power(); return FN[t.v](arg); }
+      throw new Error(`"${t.v}" isn't a function this calculator knows. Try sqrt, ln, log, exp, sin, cos, or tan.`);
+    }
+    throw new Error(`Check the expression near "${t.t}".`);
+  }
+  const v = expr();
+  if (p < toks.length) throw new Error(toks[p].t === ")" ? "There's an extra closing parenthesis." : "Check the end of the expression.");
+  if (!Number.isFinite(v)) throw new Error("The result isn't a finite number. Check for division by zero.");
+  return v;
+}
+function fmtNum(v){
+  if (v === 0) return "0";
+  const a = Math.abs(v);
+  if (a >= 1e12 || a < 1e-6) return v.toExponential(6).replace(/\.?0+e/, "e");
+  return parseFloat(v.toPrecision(10)).toLocaleString("en-US", {maximumFractionDigits:8});
+}
+function rawNum(v){ return String(parseFloat(v.toPrecision(12))); }
+function insertCalc(text){
+  const v = calcIn.value;
+  const [a, b] = document.activeElement === calcIn ? [calcIn.selectionStart, calcIn.selectionEnd] : (caret || [v.length, v.length]);
+  calcIn.value = v.slice(0, a) + text + v.slice(b);
+  caret = [a + text.length, a + text.length];
+  if (document.activeElement === calcIn) calcIn.setSelectionRange(caret[0], caret[1]);
+  calcOut.textContent = ""; calcOut.classList.remove("err");
+}
+function runCalc(){
+  const src = calcIn.value.trim();
+  if (!src) return;
+  try {
+    const v = calcEval(src);
+    calc.ans = v;
+    calc.tape.unshift({e:src, v}); calc.tape = calc.tape.slice(0, 8);
+    calcOut.classList.remove("err"); calcOut.textContent = "= " + fmtNum(v);
+    calcIn.value = rawNum(v); caret = [calcIn.value.length, calcIn.value.length];
+    $("#calcTape").innerHTML = calc.tape.map((t, i) => `<li><button type="button" data-tape="${i}" aria-label="Use ${esc(fmtNum(t.v))}">${esc(t.e)} = <b>${esc(fmtNum(t.v))}</b></button></li>`).join("");
+  } catch (e) {
+    calcOut.classList.add("err"); calcOut.textContent = e.message;
+  }
+}
+calcIn.addEventListener("keydown", e => { if (e.key === "Enter"){ e.preventDefault(); runCalc(); } });
+calcIn.addEventListener("blur", () => { caret = [calcIn.selectionStart, calcIn.selectionEnd]; });
+calcIn.addEventListener("input", () => { calcOut.textContent = ""; calcOut.classList.remove("err"); });
+$("#paneC").addEventListener("click", e => {
+  const b = e.target.closest("button"); if (!b) return;
+  if (b.dataset.ins !== undefined) insertCalc(b.dataset.ins);
+  else if (b.dataset.act === "eq") runCalc();
+  else if (b.dataset.act === "clr"){ calcIn.value = ""; caret = [0, 0]; calcOut.textContent = ""; calcOut.classList.remove("err"); }
+  else if (b.dataset.act === "del"){
+    const v = calcIn.value, [a, c] = caret || [v.length, v.length];
+    if (a !== c){ calcIn.value = v.slice(0, a) + v.slice(c); caret = [a, a]; }
+    else if (a > 0){ calcIn.value = v.slice(0, a - 1) + v.slice(a); caret = [a - 1, a - 1]; }
+  }
+  else if (b.dataset.tape !== undefined){ const t = calc.tape[+b.dataset.tape]; if (t) insertCalc(rawNum(t.v)); }
+});
+
+// ---------- Events ----------
+const ACTIONS = {
+  // home
+  chip(b){ const c = DB.settings.v, d = b.dataset.d; c.domains = c.domains.includes(d) ? c.domains.filter(x => x !== d) : DOM_KEYS.filter(x => x === d || c.domains.includes(x)); persist("settings"); renderHome(b.dataset.fk); },
+  allTopics(b){ const c = DB.settings.v; c.domains = c.domains.length === DOM_KEYS.length ? [] : DOM_KEYS.slice(); persist("settings"); renderHome(b.dataset.fk); },
+  len(b){ DB.settings.v.len = +b.dataset.v; persist("settings"); renderHome(b.dataset.fk); },
+  mode(b){ DB.settings.v.mode = b.dataset.v; persist("settings"); renderHome(b.dataset.fk); },
+  order(b){ DB.settings.v.order = b.dataset.v; persist("settings"); renderHome(b.dataset.fk); },
+  limit(b){ DB.settings.v.fullLimit = +b.dataset.v; persist("settings"); renderHome(b.dataset.fk); },
+  startCustom(){ const c = DB.settings.v; startSession(c.mode, drawCustom(c)); },
+  startFull(){ const c = DB.settings.v; startSession("full", drawFull(), {limit:c.fullLimit * 60000, formulas:!c.hideFormulas}); },
+  readyBy(b){ readyBy = b.dataset.v; renderHome(b.dataset.fk); },
+  review(){ startSession("review", dueIds().slice(0, 50)); },
+  learn(){ startSession("study", drawNew(10)); },
+  practice(b){ startSession("study", drawCustom({domains:[b.dataset.d], len:25, order:"due", calcOnly:false})); },
+  resume(){ resumeSession(); },
+  async discard(){
+    const k = await ask({title:"Discard this test?", body:"<p>Your answers in this test will be lost. Your review schedule and score history aren't affected.</p>",
+      actions:[{k:"discard", label:"Discard test", style:"danger"}, {k:"cancel", label:"Keep it", style:"primary", focus:true}]});
+    if (k === "discard"){ DB.session.s = null; persist("session"); renderHome(); announce("Test discarded."); } else focusKey("discard");
+  },
+  export(){ exportData(); },
+  import(){ importData(); },
+  reset(){ resetData(); },
+  // quiz
+  quit(){ quitQuiz(); },
+  pick(b){ pick(+b.dataset.k); },
+  next(){ next(); },
+  prev(){ go(S.i - 1); },
+  flag(){ toggleFlag(); },
+  guess(){ toggleGuess(); },
+  maptog(){ S.showMap = !S.showMap; renderQuiz("maptog"); },
+  jump(b){ go(+b.dataset.j); },
+  submit(){ trySubmit(); },
+  tool(b){ const t = b.dataset.tool; if (toolsOpen() && toolsTab === t) closeTools(); else openTools(t, b); },
+  // results
+  retake(){ startSession("retake", shuffle(R.qs.filter(x => !okOf(x) || x.g).map(x => x.id))); },
+  home(){ goHome(); },
+  toggleAll(b){ R.showAll = !R.showAll; renderResults(b.dataset.fk); }
+};
+const CHANGES = {
+  hideF(el){ DB.settings.v.hideFormulas = el.checked; persist("settings"); },
+  calcOnly(el){ DB.settings.v.calcOnly = el.checked; persist("settings"); renderHome(el.dataset.fk); }
+};
+app.addEventListener("click", e => {
+  const b = e.target.closest("[data-act]");
+  if (!b || b.disabled || b.tagName === "INPUT") return;
+  const f = ACTIONS[b.dataset.act]; if (f) f(b, e);
+});
+app.addEventListener("change", e => { const el = e.target, f = el.dataset && CHANGES[el.dataset.act]; if (f) f(el); });
+
+document.addEventListener("keydown", e => {
+  if (e.metaKey || e.ctrlKey || e.altKey || dlg.open) return;
+  const t = e.target;
+  if (t && t.closest && t.closest("input, textarea, select, #tools")) return;
+  if (e.key === "Escape" && toolsOpen()){ closeTools(); return; }
+  if (view !== "quiz" || !S) return;
+  const k = e.key.toLowerCase(), map = {"1":0,"2":1,"3":2,"4":3,"a":0,"b":1,"c":2,"d":3};
+  if (k in map){ pick(map[k]); e.preventDefault(); }
+  else if (k === "f" && !isStudy()){ toggleFlag(); e.preventDefault(); }
+  else if (k === "g"){ toggleGuess(); e.preventDefault(); }
+  else if (e.key === "ArrowRight" && !isStudy()){ if (S.i < S.qs.length - 1) go(S.i + 1); e.preventDefault(); }
+  else if (e.key === "ArrowLeft" && !isStudy()){ go(S.i - 1); e.preventDefault(); }
+  else if (e.key === "Enter" && !(t && t.tagName === "BUTTON")){ next(); e.preventDefault(); }
+});
+
+// Sparkline tooltips
+const tip = $("#tip");
+document.addEventListener("pointerover", e => {
+  const el = e.target.closest && e.target.closest("[data-tip]");
+  if (!el){ tip.hidden = true; return; }
+  tip.textContent = el.dataset.tip; tip.hidden = false;
+  const r = el.getBoundingClientRect(), w = tip.offsetWidth;
+  tip.style.left = Math.min(window.innerWidth - w - 8, Math.max(8, r.left + r.width / 2 - w / 2)) + "px";
+  tip.style.top = Math.max(8, r.top - tip.offsetHeight - 6) + "px";
+});
+document.addEventListener("scroll", () => { tip.hidden = true; }, {passive:true});
+
+// Pause the clock while the page is hidden, and save before it goes away.
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden){ if (view === "quiz" && S){ pauseClock(); saveSession(); } flushPushes(); }
+  else if (view === "quiz" && S && !holdClock){ resumeClock(); tick(); }
+});
+window.addEventListener("pagehide", () => { if (view === "quiz" && S){ pauseClock(); saveSession(); } flushPushes(); });
+window.addEventListener("pageshow", e => { if (e.persisted && view === "quiz" && S && !running) resumeClock(); });
+
+// ---------- Start ----------
+loadLocal();
+migrateV1();
+renderHome();
+initCloud();
+</script>
