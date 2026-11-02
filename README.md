@@ -1,5 +1,7 @@
 # Certified Forester practice exams
 
+**Try it:** https://james-baunach.github.io/SAFstudy/
+
 A free, single-page practice tool for the Society of American Foresters (SAF) **Certified Forester (CF)** exam. It includes:
 
 - Original multiple-choice questions, each tagged by **SAF's four exam domains** and by forestry subject.
