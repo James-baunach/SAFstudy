@@ -22,3 +22,26 @@ jobs:
           path: |
             certified-forester-exams.html
             offline.html
+      # GitHub Pages serves the standalone page as the site's index.
+      - name: Prepare the Pages site
+        run: mkdir -p _site && cp offline.html _site/index.html
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
